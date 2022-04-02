@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node --experimental-json-modules app.mjs",
+    "migration:db": "sequelize db:migrate"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "cls-hooked": "^4.2.2",
+    "express": "^4.17.3",
+    "i": "^0.3.7",
+    "mysql2": "^2.3.3",
+    "npm": "^8.6.0",
+    "sequelize": "^6.17.0"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.4.1"
+  }
+}
