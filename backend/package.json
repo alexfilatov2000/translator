@@ -5,8 +5,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node --experimental-json-modules app.mjs",
-    "migration:db": "sequelize db:migrate"
+    "start": "nodemon --experimental-json-modules app.mjs",
+    "db:migrate": "sequelize db:migrate",
+    "db:migrate:undo": "sequelize db:migrate:undo"
   },
   "author": "",
   "license": "ISC",
@@ -14,12 +15,17 @@
     "bluebird": "^3.7.2",
     "cls-hooked": "^4.2.2",
     "express": "^4.17.3",
+    "flat": "^5.0.2",
     "i": "^0.3.7",
+    "livr": "^2.3.3",
+    "livr-extra-rules": "^1.2.1",
+    "lodash": "^4.17.21",
     "mysql2": "^2.3.3",
     "npm": "^8.6.0",
     "sequelize": "^6.17.0"
   },
   "devDependencies": {
+    "nodemon": "^2.0.15",
     "sequelize-cli": "^6.4.1"
   }
 }

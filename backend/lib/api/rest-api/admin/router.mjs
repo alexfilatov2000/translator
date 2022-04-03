@@ -14,8 +14,7 @@ export default function init({ sequelize }) {
     // router.use(csrfProtection);
 
     console.log('router')
-    router.get('/users',  () => {
-        console.log(12313)});
+    router.get('/users',  controllers.users.show);
 
     // router.use(errorHandler);
 

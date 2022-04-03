@@ -1,7 +1,8 @@
 import * as api                from './api/rest-api/app.mjs';
 import {initModels} from "./domain-model/index.mjs";
 import UseCaseBase             from './use-cases/Base.mjs';
-import config                  from '../configs/config.json' assert {type: 'json'};
+import config                  from '../config/config.json' assert {type: 'json'};
+import dbConfig from '../config/db.json ' assert {type: 'json'};
 
 export default class AppProvider {
     config = null;
@@ -10,7 +11,7 @@ export default class AppProvider {
 
     api = null;
 
-    dbConfig = {};
+    params = {};
 
     static create() {
         return new this();
@@ -19,6 +20,7 @@ export default class AppProvider {
     initApp() {
         this.config = config;
         this.api = api;
+        this.dbConfig = dbConfig;
 
         this.initDb();
         this.initUseCases();
@@ -36,7 +38,7 @@ export default class AppProvider {
     }
 
     initDb() {
-        const { sequelize } = initModels(this.config, this.dbConfig);
+        const { sequelize } = initModels(this.dbConfig, this.params);
 
         this.sequelize = sequelize;
     }

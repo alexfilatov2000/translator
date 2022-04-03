@@ -7,13 +7,5 @@
     "langs" : {
         "list": ["ua", "ru"],
         "default": "ua"
-    },
-    "db" : {
-        "username": "filatov",
-        "password": "password",
-        "database": "translator",
-        "host": "127.0.0.1",
-        "dialect": "mysql",
-        "port": "3306"
     }
 }

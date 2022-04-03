@@ -8,7 +8,7 @@ Sequelize.useCLS(namespace);
 
 export function initModels(dbConfig, params) {
 
-    const { database, username, password, dialect, host, port } = dbConfig.db;
+    const { database, username, password, dialect, host, port } = dbConfig.development;
 
     const sequelize = new Sequelize(database, username, password, {
         host,
