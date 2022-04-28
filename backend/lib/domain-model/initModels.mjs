@@ -6,19 +6,18 @@ const namespace = cls.createNamespace('sequelize');
 
 Sequelize.useCLS(namespace);
 
-export function initModels(dbConfig, params) {
-
+export function initModels(dbConfig) {
     const { database, username, password, dialect, host, port } = dbConfig.development;
 
     const sequelize = new Sequelize(database, username, password, {
         host,
         port,
         dialect,
-        logging        : false,
+        logging : false
     });
 
     const models = {
-        User,
+        User
     };
 
     Object.values(models).forEach(model => model.init(sequelize));

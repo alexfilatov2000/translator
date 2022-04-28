@@ -8,13 +8,14 @@ const router = express.Router();
 // const { fileUpload, detectDevice, detectIp, sequelizeSession, errorHandler } = middlewares;
 // const { check } = controllers.sessions;
 
-export default function init({ sequelize }) {
+export default function init() {
     // router.use(sequelizeSession({ sequelize }));
     // router.use(fileUpload().any());
     // router.use(csrfProtection);
-
-    console.log('router')
     router.get('/users',  controllers.users.show);
+
+    // olx
+    router.get('/olx/session', controllers.olx.getSession);
 
     // router.use(errorHandler);
 

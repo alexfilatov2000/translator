@@ -1,8 +1,8 @@
-
-import {Exception} from "./Exception.mjs";
-
-import "../utils/livr.mjs"
 import LIVR from 'livr';
+import { Exception } from './Exception.mjs';
+
+import '../utils/livr.mjs';
+
 
 export default class UseCaseBase {
     static sequelizeInstanse = null;
@@ -18,14 +18,9 @@ export default class UseCaseBase {
     async run(args) {
         return UseCaseBase.sequelizeInstanse.transaction(async () => {
             let result = null;
+            const cleanParams = await this.validate(args);
 
-            try {
-                const cleanParams = await this.validate(args);
-
-                result = this.execute(cleanParams);
-            } catch (e) {
-                throw e
-            }
+            result = this.execute(cleanParams);
 
             return result;
         });

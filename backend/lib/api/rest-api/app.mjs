@@ -3,9 +3,9 @@ import fs            from 'fs';
 import https         from 'https';
 import express       from 'express';
 // import middlewares   from './middlewares.mjs';
+import bluebird    from 'bluebird';
 import adminRotes    from './admin/router.mjs';
 
-import bluebird    from 'bluebird';
 const promisify = bluebird.promisifyAll;
 
 const app = express();
@@ -30,7 +30,7 @@ export function start({ appPort, secure }) {
     const securedApp = secure ? useHttps(app) : app;
 
     server = securedApp.listen(appPort, () => {
-        console.log(`app started on port ${appPort}`)
+        console.log(`app started on port ${appPort}`);
     });
 
     server.closeAsync = promisify(server.close);
@@ -39,7 +39,7 @@ export function start({ appPort, secure }) {
 export async function stop() {
     if (!server) return;
 
-    console.log('server was stopped')
+    console.log('server was stopped');
 
     await server.closeAsync();
 }

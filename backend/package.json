@@ -5,9 +5,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --experimental-json-modules app.mjs",
+    "start": "nodemon app.mjs",
     "db:migrate": "sequelize db:migrate",
-    "db:migrate:undo": "sequelize db:migrate:undo"
+    "db:migrate:undo": "sequelize db:migrate:undo",
+    "test:lint": "eslint lib app.mjs --ext mjs",
+    "test:lint:fix": "eslint lib app.mjs --ext mjs --fix"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +27,19 @@
     "sequelize": "^6.17.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/plugin-syntax-import-assertions": "^7.16.7",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.14.0",
+    "eslint-config-webbylab": "^5.3.1",
+    "eslint-plugin-ava": "^10.3.0",
+    "eslint-plugin-fetch": "0.0.1",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-more": "1.0.0",
+    "eslint-plugin-no-require-lodash": "^1.1.0",
+    "eslint-plugin-prefer-spread": "^1.0.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-security": "^1.4.0",
     "nodemon": "^2.0.15",
     "sequelize-cli": "^6.4.1"
   }

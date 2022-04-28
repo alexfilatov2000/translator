@@ -1,11 +1,7 @@
-export async function runUseCase(useCaseClass, { context = {}, params = {}}) {
-    try {
-        const result = await new useCaseClass({ context }).run(params);
+export async function runUseCase(useCaseClass, { context = {}, params = {} }) {
+    const result = await new useCaseClass({ context }).run(params);
 
-        return result;
-    } catch (error) {
-        throw error;
-    }
+    return result;
 }
 
 export function makeUseCaseRunner(
@@ -15,14 +11,14 @@ export function makeUseCaseRunner(
 ) {
     return async function useCaseRunner(req, res, next) {
         const resultPromise = runUseCase(useCaseClass, {
-            params  : paramsBuilder(req, res),
+            params : paramsBuilder(req, res)
         });
 
         return render(req, res, resultPromise, next);
     };
 }
 
-export async function renderPromiseAsJson(req, res, promise, next) {
+export async function renderPromiseAsJson(req, res, promise) {
     try {
         const data = await promise;
 
@@ -30,7 +26,7 @@ export async function renderPromiseAsJson(req, res, promise, next) {
 
         return res.send(data);
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.send({
             status : 0,
             error  : {
