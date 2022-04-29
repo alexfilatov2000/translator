@@ -7,5 +7,6 @@
     "langs" : {
         "list": ["ua", "ru"],
         "default": "ua"
-    }
+    },
+    "tokenEmailKey": "kjdnwkndei83290023e"
 }

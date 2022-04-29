@@ -1,3 +1,7 @@
+import User from "../../domain-model/User.mjs";
+import jwt from "jsonwebtoken";
+import config from "#global-config" assert {type: 'json'};
+
 export async function runUseCase(useCaseClass, { context = {}, params = {} }) {
     const result = await new useCaseClass({ context }).run(params);
 
@@ -7,15 +11,43 @@ export async function runUseCase(useCaseClass, { context = {}, params = {} }) {
 export function makeUseCaseRunner(
     useCaseClass,
     paramsBuilder,
+    params,
     render = renderPromiseAsJson
 ) {
     return async function useCaseRunner(req, res, next) {
+        let context = undefined;
+        if (params?.withToken){
+            context = await validateJwt(req, res)
+            if (!context) return ;
+        }
         const resultPromise = runUseCase(useCaseClass, {
-            params : paramsBuilder(req, res)
+            params : paramsBuilder(req, res),
+            context,
         });
-
         return render(req, res, resultPromise, next);
     };
+}
+
+async function validateJwt(req, res) {
+    try {
+        const token = getToken(req);
+        const userData = await jwt.verify(token, config.tokenEmailKey);
+
+        const isValid = await User.findByPk(userData.id);
+
+        if (!isValid) {
+            throw new Error("NOT_VALID_USER");
+        }
+
+        return  {
+            userId: isValid.id,
+            userInstance: isValid
+        };
+    } catch (e) {
+        res.status(400).send({
+            error: "WRONG_TOKEN"
+        });
+    }
 }
 
 export async function renderPromiseAsJson(req, res, promise) {
@@ -35,4 +67,28 @@ export async function renderPromiseAsJson(req, res, promise) {
             }
         });
     }
+}
+
+function getToken (req) {
+    if (req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer") {
+        return req.headers.authorization.split(" ")[1];
+    }
+
+    if (req.query && req.query.token) {
+        return req.query.token;
+    }
+
+    if (req.params && req.params.token) {
+        return req.params.token;
+    }
+
+    if (req.params && req.params.token) {
+        return req.params.token;
+    }
+
+    if (req.get('X-AuthToken')) {
+        return req.get('X-AuthToken')
+    }
+
+    return null;
 }

@@ -21,6 +21,7 @@
     "express": "^4.17.3",
     "flat": "^5.0.2",
     "i": "^0.3.7",
+    "jsonwebtoken": "^8.5.1",
     "livr": "^2.3.3",
     "livr-extra-rules": "^1.2.1",
     "lodash": "^4.17.21",
@@ -44,5 +45,8 @@
     "eslint-plugin-security": "^1.4.0",
     "nodemon": "^2.0.15",
     "sequelize-cli": "^6.4.1"
+  },
+  "imports": {
+    "#global-config": "./config/config.json"
   }
 }
