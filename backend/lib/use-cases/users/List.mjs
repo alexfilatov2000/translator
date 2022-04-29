@@ -18,7 +18,7 @@ export default class UsersList extends Base {
         console.log(users);
 
         return {
-            data : 111
+            users
         };
     }
 }

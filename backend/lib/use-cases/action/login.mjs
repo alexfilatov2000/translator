@@ -8,8 +8,8 @@ export default class login extends Base {
     async validate(data = {}) {
         console.log(data);
         const rules = {
-            id   : [ 'required', 'string' ],
-            password	: [	'required', 'string' ]
+            id   : [ "required", "string", { min_length: 3, max_length: 12}],
+            password	: [	"required", "string", { min_length: 8, max_length: 20}],
         };
 
         return this.doValidation(data, rules);

@@ -18,6 +18,8 @@ export default function init() {
 
     //action
     router.post('/login',  controllers.action.login);
+    router.post('/register',  controllers.action.register);
+    router.post('/email-verify/:token',  controllers.action.emailVerify);
 
     // olx
     router.get('/olx/session', controllers.olx.getSession);

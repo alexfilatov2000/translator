@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import config from "#global-config";
+import config from "#global-config" assert {type: 'json'};
 
 const transporter = nodemailer.createTransport({
 	service: "gmail",

@@ -1,9 +1,14 @@
 import Base from '../../use-cases/Base.mjs';
-// import Users from "../../models/users.mjs";
+import User from "../../domain-model/User.mjs";
+import jwt from "jsonwebtoken";
+import config from "#global-config" assert {type: 'json'};
 
 export default class emailVerify extends Base {
 	async execute(data){
-		await this.context.update({status: "verified"});
+		const id = (await jwt.decode(data.token, config.tokenEmailKey)).id;
+		const user = await User.findByPk(id);
+		await user.update({status: "verified"});
+		return ;
 	}
 }
 

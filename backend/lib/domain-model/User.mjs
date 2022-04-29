@@ -7,6 +7,7 @@ class User extends Base {
             id: { type: DT.UUID, defaultValue: DT.UUIDV4, primaryKey: true },
             password: DT.STRING,
             email: DT.STRING,
+            status: DT.STRING,
 
             createdAt    : { type: DT.DATE, allowNull: false },
             updatedAt    : { type: DT.DATE, allowNull: false }

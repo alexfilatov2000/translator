@@ -19,6 +19,10 @@ module.exports = {
                 allowNull: false,
                 unique: true,
             },
+            status: {
+                type: Sequelize.STRING,
+                defaultValue: "unverified",
+            },
 
             createdAt      : { type: Sequelize.DATE,    allowNull: false },
             updatedAt      : { type: Sequelize.DATE,    allowNull: false }

@@ -1,10 +1,6 @@
 import Sequelize      from 'sequelize';
 
 class Base extends Sequelize.Model {
-    constructor({context}) {
-        super();
-        this.context = context;
-    }
     static init(sequelize, options = {}) {
         if (this.generateSchema) {
             this.generateSchema();

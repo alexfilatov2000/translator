@@ -7,6 +7,10 @@ import '../utils/livr.mjs';
 export default class UseCaseBase {
     static sequelizeInstanse = null;
 
+    constructor({context}) {
+        this.context = context;
+    }
+
     static setSequelizeInstanse(sequelize) {
         UseCaseBase.sequelizeInstanse = sequelize;
     }
