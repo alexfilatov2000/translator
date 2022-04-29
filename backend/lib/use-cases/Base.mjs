@@ -18,7 +18,8 @@ export default class UseCaseBase {
     async run(args) {
         return UseCaseBase.sequelizeInstanse.transaction(async () => {
             let result = null;
-            const cleanParams = await this.validate(args);
+            let cleanParams = args;
+            if (this?.validate) cleanParams = await this.validate(args);
 
             result = this.execute(cleanParams);
 
