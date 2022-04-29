@@ -5,6 +5,8 @@ import express       from 'express';
 // import middlewares   from './middlewares.mjs';
 import bluebird    from 'bluebird';
 import adminRotes    from './admin/router.mjs';
+import cors from "cors";
+import bodyParser from "body-parser";
 
 const promisify = bluebird.promisifyAll;
 
@@ -19,6 +21,11 @@ export function init({ sequelize }) {
     // app.use(middlewares.cors);
     // app.use(middlewares.sequelizeLang);
     // app.use(middlewares.metrics);
+
+    app.use(cors());
+    app.use(express.static("public"));
+    app.use(bodyParser.urlencoded({extended: false}));
+    app.use(bodyParser.json());
 
     app.use('/storage', express.static('storage'));
     app.use('/api/v1',  adminRotes({ sequelize }));
