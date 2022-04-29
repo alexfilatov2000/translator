@@ -8,5 +8,8 @@
         "list": ["ua", "ru"],
         "default": "ua"
     },
-    "tokenEmailKey": "kjdnwkndei83290023e"
+    "tokenEmailKey": "kjdnwkndei83290023e",
+    "tokenLoginKey": "jdwjdeiwdoiewkedo32920",
+    "email": "llalalal@gmail.com",
+    "emailPassword": "12345678"
 }
