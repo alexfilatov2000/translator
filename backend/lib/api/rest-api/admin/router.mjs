@@ -15,7 +15,7 @@ export default function init() {
     router.get('/users',  controllers.users.show);
 
     // olx
-    router.get('/olx/session', controllers.olx.getSession);
+    router.post('/olx/session', controllers.olx.createSession);
 
     // router.use(errorHandler);
 

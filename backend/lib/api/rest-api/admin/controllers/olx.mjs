@@ -1,6 +1,6 @@
-import List from '../../../../use-cases/users/List.mjs';
+import CreateSession from '../../../../use-cases/olx/CreateSession.mjs';
 import { makeUseCaseRunner } from '../../serviceRunner.mjs';
 
 export default {
-    getSession : makeUseCaseRunner(List, req => ({ ...req.query, ...req.params }))
+    createSession : makeUseCaseRunner(CreateSession, req => ({ ...req.query, ...req.params, ...req.body }))
 };
