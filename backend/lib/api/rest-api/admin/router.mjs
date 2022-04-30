@@ -12,7 +12,14 @@ export default function init() {
     // router.use(sequelizeSession({ sequelize }));
     // router.use(fileUpload().any());
     // router.use(csrfProtection);
+
+    //users
     router.get('/users',  controllers.users.show);
+
+    //action
+    router.post('/login',  controllers.action.login);
+    router.post('/register',  controllers.action.register);
+    router.post('/email-verify/:token',  controllers.action.emailVerify);
 
     // olx
     router.post('/olx/session', controllers.olx.createSession);
