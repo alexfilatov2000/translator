@@ -3,7 +3,6 @@
 const {DataTypes: DT} = require("sequelize");
 module.exports = {
     up : async (queryInterface, Sequelize) => {
-
         await queryInterface.createTable('Users', {
             id: {
                 type: Sequelize.UUID,

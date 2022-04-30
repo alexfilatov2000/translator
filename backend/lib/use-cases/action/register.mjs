@@ -4,6 +4,7 @@ import Base from '../../use-cases/Base.mjs';
 import jwt from "jsonwebtoken";
 import mail from "../utils/email.mjs";
 import argon2  from "argon2";
+import { v4 as uuidv4 } from 'uuid';
 
 import config from "#global-config" assert {type: 'json'};
 
@@ -11,7 +12,6 @@ export default class register extends Base {
 	async validate(data = {}) {
 	    console.log(data);
 	    const rules = {
-			id   : [ "required", "string", { min_length: 3, max_length: 12}],
 			password	: [	"required", "string", { min_length: 8, max_length: 20}],
 			email	: [	"required", "email"],
 	    };
@@ -22,7 +22,7 @@ export default class register extends Base {
 	async execute(data){
 		data.password = await argon2.hash(data.password);
 		const usr = {
-			id: data.id,
+			id: uuidv4(),
 			password: data.password,
 			email: data.email,
 		};
