@@ -33,15 +33,15 @@ async function validateJwt(req, res) {
         const token = getToken(req);
         const userData = await jwt.verify(token, config.tokenEmailKey);
 
-        const isValid = await User.findByPk(userData.id);
+        const user = await User.findByPk(userData.id);
 
-        if (!isValid) {
+        if (!user) {
             throw new Error("NOT_VALID_USER");
         }
 
         return  {
-            userId: isValid.id,
-            userInstance: isValid
+            userId: user.id,
+            userInstance: user
         };
     } catch (e) {
         res.status(400).send({
