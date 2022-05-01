@@ -15,7 +15,7 @@ export function makeUseCaseRunner(
     render = renderPromiseAsJson
 ) {
     return async function useCaseRunner(req, res, next) {
-        let context = undefined;
+        let context = null;
         if (params?.withToken){
             context = await validateJwt(req, res)
             if (!context) return ;
