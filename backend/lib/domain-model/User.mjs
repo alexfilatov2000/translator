@@ -22,11 +22,7 @@ class User extends Base {
 
     static async createUser(params){
         let errors = {};
-        const username = await this.findOne({ where: { id: params.id } });
         const email = await this.findOne({ where: { email: params.email } });
-        if (username) {
-            errors.id = "id is busy";
-        }
         if (email) {
             errors.email = "email is busy";
         }
