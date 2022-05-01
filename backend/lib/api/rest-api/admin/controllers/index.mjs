@@ -1,9 +1,9 @@
 import users        from './users.mjs';
-import action        from './action.mjs';
+import authentication        from './authentication.mjs';
 import olx from './olx.mjs';
 
 export default {
     users,
-    action,
+    authentication,
     olx
 };

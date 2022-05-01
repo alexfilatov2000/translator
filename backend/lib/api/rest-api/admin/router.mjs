@@ -17,9 +17,9 @@ export default function init() {
     router.get('/users',  controllers.users.show);
 
     //action
-    router.post('/login',  controllers.action.login);
-    router.post('/register',  controllers.action.register);
-    router.post('/email-verify/:token',  controllers.action.emailVerify);
+    router.post('/login',  controllers.authentication.login);
+    router.post('/register',  controllers.authentication.register);
+    router.post('/email-verify/:token',  controllers.authentication.emailVerify);
 
     // olx
     router.get('/olx/session', controllers.olx.getSession);
