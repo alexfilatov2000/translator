@@ -14,22 +14,20 @@ export default class login extends Base {
 
         return this.doValidation(data, rules);
     }
-    async execute(data){
-        const user = await User.findOne({where: {email: data.email}});
+    async execute({email, password}){
+        const user = await User.findOne({where: {email: email}});
         let errors = {};
 
-        if (user === null) throw ({email: "email is not exist"});
-        const ok = await argon2.verify(user.password, data.password);
-        if (!ok) errors.password = "wrong account password";
-        if (user.status === "unverified") errors.error = "u must verify account";
+        if (!user) throw ({email: "EMAIL_NOT_EXIST"});
+        const isVerified = await argon2.verify(user.password, password);
+        if (!isVerified) errors.password = "INCORRECT_PASSWORD";
+        if (user.status === "UNVERIFIED") errors.error = "UNVERIFIED_USER";
         if (Object.keys(errors).length){
             throw errors;
         }
 
         const token = await jwt.sign({id: user.id},
             config.tokenLoginKey, {expiresIn: "7d"});
-
-        console.log(token);
 
         return {user, token};
     }

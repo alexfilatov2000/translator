@@ -1,6 +1,6 @@
-import Login from '../../../../use-cases/action/login.mjs'
-import Register from '../../../../use-cases/action/register.mjs'
-import EmailVerify from '../../../../use-cases/action/email-verify.mjs'
+import Login from '../../../../use-cases/authentication/login.mjs'
+import Register from '../../../../use-cases/authentication/register.mjs'
+import EmailVerify from '../../../../use-cases/authentication/email-verify.mjs'
 import {makeUseCaseRunner} from "../../serviceRunner.mjs";
 
 export default {

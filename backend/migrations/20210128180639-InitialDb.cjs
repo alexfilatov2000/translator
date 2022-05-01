@@ -19,8 +19,12 @@ module.exports = {
                 unique: true,
             },
             status: {
-                type: Sequelize.STRING,
-                defaultValue: "unverified",
+                type: Sequelize.ENUM,
+                values: [
+                    'UNVERIFIED',
+                    'VERIFIED',
+                ],
+                defaultValue: "UNVERIFIED",
             },
 
             createdAt      : { type: Sequelize.DATE,    allowNull: false },

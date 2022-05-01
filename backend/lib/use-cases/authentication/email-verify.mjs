@@ -7,7 +7,7 @@ export default class emailVerify extends Base {
 	async execute(data){
 		const id = (await jwt.decode(data.token, config.tokenEmailKey)).id;
 		const user = await User.findByPk(id);
-		await user.update({status: "verified"});
+		await user.update({status: "VERIFIED"});
 		return {user};
 	}
 }

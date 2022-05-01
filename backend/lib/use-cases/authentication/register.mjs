@@ -19,17 +19,19 @@ export default class register extends Base {
 	    return this.doValidation(data, rules);
 	}
 
-	async execute(data){
-		data.password = await argon2.hash(data.password);
-		const usr = {
+	async execute({password, email}){
+		const passwordHash = await argon2.hash(password);
+		const usrDb = await User.createUser({
 			id: uuidv4(),
-			password: data.password,
-			email: data.email,
-		};
-		const usrDb = await User.createUser({...usr});
+			password: passwordHash,
+			email: email,
+		});
 		const token = await jwt.sign({id: usrDb.id}, config.tokenEmailKey, {expiresIn: "1h"});
-		const url = `http://localhost:3000/verify-email/${token}`;
 
+		// TODO set correct adminUrl
+		const url = `${config.adminUrl}/verify-email/${token}`;
+
+		// TODO create gmail account and put it to the config. It will be work ↓
 		// await mail(data.email, url, "Click to verify account", "");
 
 		return {token};

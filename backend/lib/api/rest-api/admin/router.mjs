@@ -16,7 +16,7 @@ export default function init() {
     //users
     router.get('/users',  controllers.users.show);
 
-    //action
+    //authentication
     router.post('/login',  controllers.authentication.login);
     router.post('/register',  controllers.authentication.register);
     router.post('/email-verify/:token',  controllers.authentication.emailVerify);

@@ -2,14 +2,16 @@
     "appPort": "8080",
     "appTestPort": "3002",
     "mainUrl": "{{MAIN_URL}}",
-    "adminUrl": "{{ADMIN_URL}}",
+    "adminUrl": "http://localhost:3000/",
     "https" : false,
     "langs" : {
         "list": ["ua", "ru"],
         "default": "ua"
     },
+
     "tokenEmailKey": "kjdnwkndei83290023e",
     "tokenLoginKey": "jdwjdeiwdoiewkedo32920",
+
     "email": "llalalal@gmail.com",
     "emailPassword": "12345678"
 }
