@@ -6,10 +6,7 @@ class Base extends Sequelize.Model {
             this.generateSchema();
         }
 
-        // TODO: rename this.schema
-        // schema already exists in sequelize Base model class.
-        // See line 1416 in model.js : static schema(schema, options) { ... }
-        super.init(this.schema, {
+        super.init(this.modelSchema, {
             tableName : this.tableName,
             ...options,
             sequelize,
