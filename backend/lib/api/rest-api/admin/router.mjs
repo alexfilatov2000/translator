@@ -22,7 +22,7 @@ export default function init() {
     router.post('/email-verify/:token',  controllers.authentication.emailVerify);
 
     // olx
-    router.get('/olx/session', controllers.olx.getSession);
+    router.post('/olx/session', controllers.olx.createSession);
 
     // router.use(errorHandler);
 
