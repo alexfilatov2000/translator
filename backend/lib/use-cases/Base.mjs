@@ -7,7 +7,7 @@ import '../utils/livr.mjs';
 export default class UseCaseBase {
     static sequelizeInstanse = null;
 
-    constructor({context}) {
+    constructor({ context }) {
         this.context = context;
     }
 
@@ -22,7 +22,9 @@ export default class UseCaseBase {
     async run(args) {
         return UseCaseBase.sequelizeInstanse.transaction(async () => {
             let result = null;
+
             let cleanParams = args;
+
             if (this?.validate) cleanParams = await this.validate(args);
 
             result = this.execute(cleanParams);

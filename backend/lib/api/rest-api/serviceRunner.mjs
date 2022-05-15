@@ -1,6 +1,6 @@
-import User from "../../domain-model/User.mjs";
-import jwt from "jsonwebtoken";
-import config from "#global-config" assert {type: 'json'};
+import jwt from 'jsonwebtoken';
+import User from '../../domain-model/User.mjs';
+import config from '#global-config' assert {type: 'json'};
 
 export async function runUseCase(useCaseClass, { context = {}, params = {} }) {
     const result = await new useCaseClass({ context }).run(params);
@@ -16,14 +16,18 @@ export function makeUseCaseRunner(
 ) {
     return async function useCaseRunner(req, res, next) {
         let context = null;
-        if (params?.withToken){
-            context = await validateJwt(req, res)
-            if (!context) return ;
+
+        if (params?.withToken) {
+            context = await validateJwt(req, res);
+            if (!context) return;
         }
+
         const resultPromise = runUseCase(useCaseClass, {
             params : paramsBuilder(req, res),
-            context,
+            context
         });
+
+
         return render(req, res, resultPromise, next);
     };
 }
@@ -36,16 +40,16 @@ async function validateJwt(req, res) {
         const user = await User.findByPk(userData.id);
 
         if (!user) {
-            throw new Error("NOT_VALID_USER");
+            throw new Error('NOT_VALID_USER');
         }
 
         return  {
-            userId: user.id,
-            userInstance: user
+            userId       : user.id,
+            userInstance : user
         };
     } catch (e) {
         res.status(400).send({
-            error: "WRONG_TOKEN"
+            error : 'WRONG_TOKEN'
         });
     }
 }
@@ -69,9 +73,9 @@ export async function renderPromiseAsJson(req, res, promise) {
     }
 }
 
-function getToken (req) {
-    if (req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer") {
-        return req.headers.authorization.split(" ")[1];
+function getToken(req) {
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+        return req.headers.authorization.split(' ')[1];
     }
 
     if (req.query && req.query.token) {
@@ -87,7 +91,7 @@ function getToken (req) {
     }
 
     if (req.get('X-AuthToken')) {
-        return req.get('X-AuthToken')
+        return req.get('X-AuthToken');
     }
 
     return null;

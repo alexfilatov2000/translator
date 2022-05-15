@@ -13,10 +13,10 @@ export default function init() {
     // router.use(fileUpload().any());
     // router.use(csrfProtection);
 
-    //users
+    // users
     router.get('/users',  controllers.users.show);
 
-    //authentication
+    // authentication
     router.post('/login',  controllers.authentication.login);
     router.post('/register',  controllers.authentication.register);
     router.post('/email-verify/:token',  controllers.authentication.emailVerify);

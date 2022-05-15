@@ -29,13 +29,13 @@ const loadingMarkup = (
 
 function main(){
     root.render(
-        <StrictMode>
+        // <StrictMode>
             <Suspense fallback={loadingMarkup}>
                 <Provider store={store}>
                     <App/>
                 </Provider>
             </Suspense>
-        </StrictMode>
+        // </StrictMode>
     );
 }
 
