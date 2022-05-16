@@ -6,7 +6,7 @@ import {Navigate} from "react-router-dom";
 import * as r from "react";
 import {styleAuth} from "../../styles/main";
 
-function verify() {
+function Verify() {
     const dispatch = rr.useDispatch();
     const users = rr.useSelector(state => state.users);
     const navigate = rd.useNavigate();
@@ -32,4 +32,4 @@ function verify() {
     )
 }
 
-export default verify;
+export default Verify;

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, Button, Typography} from '@mui/material';
+import {Box, Button, Divider, Typography} from '@mui/material';
 import {useTranslation} from 'react-i18next'
 import {useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -27,8 +27,7 @@ function Home() {
     let [searchParams, setSearchParams] = useSearchParams();
     const dispatch = useDispatch();
     const olxData = useSelector(state => state.olx);
-
-    console.log(olxData)
+    const users = useSelector(state => state.users);
 
     const {t} = Tr();
     const code = searchParams.get("code")
@@ -49,13 +48,26 @@ function Home() {
             <Typography variant="h4" component="h2">
                 {t("HOME")}
             </Typography>
-
-            <Button
-                variant="contained"
-                href={link_to_get_olx_code}
-            >
-                Authorize via olx
-            </Button>
+            {users.token ?
+                <Box>
+                    <Button
+                        variant="contained"
+                        href={link_to_get_olx_code}
+                    >
+                        Authorize via olx
+                    </Button>
+                </Box>
+                :
+                <Box>
+                    <Button
+                        variant="contained"
+                        href={link_to_get_olx_code}
+                        disabled
+                    >
+                        Authorize via olx
+                    </Button>
+                </Box>
+            }
         </Box>
     );
 

@@ -8,7 +8,7 @@ import * as r from "react";
 import {useTranslation} from 'react-i18next'
 const Tr = useTranslation;
 
-function login() {
+function Login() {
     const {t} = Tr();
     const dispatch = rr.useDispatch();
     const users = rr.useSelector(state => state.users);
@@ -38,4 +38,4 @@ function login() {
     )
 }
 
-export default login;
+export default Login;

@@ -15,7 +15,7 @@ export default function Settings() {
 
     const log_out = () => {
         dispatch(logOut())
-        navigate('/home');
+        navigate('/');
     }
 
     return (

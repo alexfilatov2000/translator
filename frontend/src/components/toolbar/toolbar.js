@@ -1,5 +1,16 @@
 import * as React from 'react';
-import {Button, Avatar, ButtonBase} from "@mui/material";
+import {
+    Button,
+    Avatar,
+    ButtonBase,
+    Drawer,
+    List,
+    Divider,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+} from "@mui/material";
 import {styleToolbar} from "../../styles/main";
 import {Link} from "react-router-dom"
 import {
@@ -9,9 +20,10 @@ import {
     Tooltip,
     Toolbar,
     useScrollTrigger,
-    Slide
+    Slide,
 } from "@mui/material";
-import {Home, Settings} from "@mui/icons-material"
+import {AttachMoney} from '@mui/icons-material';
+import {Home, Settings, DisplaySettings} from "@mui/icons-material"
 import * as rr from "react-redux";
 import * as rd from "react-router-dom";
 import config from "../../config/config";
@@ -23,6 +35,7 @@ import PropTypes from 'prop-types';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Zoom from '@mui/material/Zoom';
 const Tr = useTranslation;
+
 
 export function ScrollTop(props) {
     const { children } = props;
@@ -56,12 +69,21 @@ ScrollTop.propTypes = {
     window: PropTypes.func,
 };
 
+const drawerWidth = 240;
+
 export default function ToolbarMain(props) {
+    const { window } = props;
     const {t} = Tr();
     const users = rr.useSelector(state => state.users);
     const dispatch = rr.useDispatch();
     const navigate = rd.useNavigate();
     const decode = parseToken(users.token);
+    const container = window !== undefined ? () => window().document.body : undefined;
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
 
     const register = () => {
         navigate('/register');
@@ -71,11 +93,45 @@ export default function ToolbarMain(props) {
         navigate(`/settings`)
     }
 
+    const drawer = (
+        <div>
+            <Toolbar />
+            <Divider />
+            <List>
+                {['My sale', 'Analyse', 'Sites'].map((text, index) => (
+                    <ListItem key={text} disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <AttachMoney/>
+                            </ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
+            <Divider />
+            <List>
+                {[{text: 'Settings', func: settings}].map(({text, func}) => (
+                    <ListItem key={text} disablePadding>
+                        <ListItemButton onClick={func}>
+                            <ListItemIcon>
+                                <DisplaySettings/>
+                            </ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
+        </div>
+    );
+
+
     return (
         <div>
             <AppBar style={styleToolbar.toolbar}>
                 <Toolbar >
-                    <div style={{flexGrow: 7, textAlign: 'left'}}>
+                    <Box display={'flex'} style={{flexGrow: 7}}> </Box>
+                    {users.token &&
                         <Box display={'flex'}>
                             <Tooltip title="home" arrow>
                                 <Link to={'/'}>
@@ -85,17 +141,6 @@ export default function ToolbarMain(props) {
                                 </Link>
                             </Tooltip>
                         </Box>
-                    </div>
-                    {users.token &&
-                        <div>
-                            <Tooltip title="settings" arrow>
-                                <ButtonBase onClick={settings}>
-                                    <Fab color="secondary" size="small">
-                                        <Settings/>
-                                    </Fab>
-                                </ButtonBase>
-                            </Tooltip>
-                        </div>
                     }
                     {!users.token && <Lg/>}
                     {!users.token &&
@@ -113,6 +158,35 @@ export default function ToolbarMain(props) {
                     </Toolbar>
                 </AppBar>
             <Toolbar />
+            {users.token &&
+                <div>
+                    <Drawer
+                        container={container}
+                        variant="temporary"
+                        open={mobileOpen}
+                        onClose={handleDrawerToggle}
+                        ModalProps={{
+                            keepMounted: true, // Better open performance on mobile.
+                        }}
+                        sx={{
+                            display: {xs: 'block', sm: 'none'},
+                            '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth},
+                        }}
+                    >
+                        {drawer}
+                    </Drawer>
+                    <Drawer
+                        variant="permanent"
+                        sx={{
+                            display: {xs: 'none', sm: 'block'},
+                            '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth},
+                        }}
+                        open
+                    >
+                        {drawer}
+                    </Drawer>
+                </div>
+            }
             <Box display={'block'} style={{width: 250, margin: 15, right: 15, position: "absolute"}}>
                 <AlertMessage error={users.error} success={users.success}/>
             </Box>

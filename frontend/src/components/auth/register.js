@@ -8,7 +8,7 @@ import {styleAuth, CustomInput} from "../../styles/main"
 import {useTranslation} from 'react-i18next'
 const Tr = useTranslation;
 
-function register() {
+function Register() {
     const {t} = Tr();
     const dispatch = rr.useDispatch();
     const users = rr.useSelector(state => state.users);
@@ -38,4 +38,4 @@ function register() {
     );
 }
 
-export default register;
+export default Register;

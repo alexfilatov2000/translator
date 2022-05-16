@@ -9,6 +9,7 @@ import Toolbar from "./components/toolbar/toolbar";
 import NotFound from "./components/utils/notfound";
 import Home from "./components/home/home";
 import Settings from "./components/users/settings";
+// import Sale from "./components/sale/sale";
 
 function App(){
     return (
@@ -19,6 +20,7 @@ function App(){
                 </Routes>
                 <Routes>
                     <Route exact path="/" element={<Home/>}/>
+                    {/*<Route exact path="/sale" element={<Sale/>}/>*/}
                     <Route exact path="/login" element={<Login/>}/>
                     <Route exact path="/register" element={<Register/>}/>
                     <Route exact path="/verify-email/:token" element={<RegisterVerify/>}/>
