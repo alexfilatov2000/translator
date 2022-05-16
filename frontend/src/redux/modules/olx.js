@@ -12,6 +12,8 @@ export const createSession = createAsyncThunk(
 
             const data = res.data?.data;
 
+            console.log({data})
+
             if (!data) {
                 return {error: 'OLX_SESSION_FAILED'};
             }
