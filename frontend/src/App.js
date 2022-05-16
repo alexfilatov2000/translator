@@ -8,8 +8,10 @@ import RegisterVerify from "./components/auth/registerVerify";
 import Toolbar from "./components/toolbar/toolbar";
 import NotFound from "./components/utils/notfound";
 import Home from "./components/home/home";
+import Profile from "./components/home/Profile"
 import Settings from "./components/users/settings";
 // import Sale from "./components/sale/sale";
+import {RouteClient} from "./components/utils/route";
 
 function App(){
     return (
@@ -25,6 +27,7 @@ function App(){
                     <Route exact path="/register" element={<Register/>}/>
                     <Route exact path="/verify-email/:token" element={<RegisterVerify/>}/>
                     <Route exact path="/settings" element={<Settings/>}/>
+                    <RouteClient exact path="/profile" element={<Profile/>}/>
                     <Route exact path="/404" element={<NotFound/>}/>
                     <Route path="*" element={<NotFound/>}/>
                 </Routes>

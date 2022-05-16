@@ -7,7 +7,7 @@ import {createSession} from "../../redux/modules/olx";
 
 const Tr = useTranslation;
 
-function Home() {
+function Profile() {
     const olx = {
         auth_url: 'https://www.olx.ua/oauth/authorize',
         access_token_url: 'https://www.olx.ua/api/open/oauth/token',
@@ -63,4 +63,4 @@ function Home() {
 
 }
 
-export default Home;
+export default Profile;

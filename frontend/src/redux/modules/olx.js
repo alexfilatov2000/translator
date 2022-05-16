@@ -9,7 +9,18 @@ export const createSession = createAsyncThunk(
     async (param, thunkAPI) => {
         try {
             const res = await axios.post(`/olx/session`, param.data);
-            return { success: "updated", data: res.data };
+
+            const data = res.data?.data;
+
+            if (!data) {
+                return {error: 'OLX_SESSION_FAILED'};
+            }
+
+            console.log({data})
+
+            param.navigate('/');
+
+            return { success: "updated", data: data };
         } catch (err) {
             return {error: err.response.data.error};
         }
@@ -19,6 +30,9 @@ export const createSession = createAsyncThunk(
 
 const initialState = {
     data: null,
+    error: null,
+    olx_access_token: localStorage.getItem('olx_access_token'),
+    olx_refresh_token: localStorage.getItem('olx_refresh_token'),
 };
 
 const slice = createSlice({
@@ -31,7 +45,10 @@ const slice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(createSession.fulfilled, (state, action) => {
-            state.data = action.payload.data;
+            localStorage.setItem('olx_access_token', action.payload.data.access_token);
+            localStorage.setItem('olx_refresh_token', action.payload.data.refresh_token);
+            state.olx_access_token = action.payload.data.access_token;
+            state.olx_refresh_token = action.payload.data.refresh_token;
         })
     }
 })
