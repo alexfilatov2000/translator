@@ -16,9 +16,7 @@ export const createSession = createAsyncThunk(
                 return {error: 'OLX_SESSION_FAILED'};
             }
 
-            console.log({data})
-
-            param.navigate('/');
+            param.navigate('/trading-platform');
 
             return { success: "updated", data: data };
         } catch (err) {

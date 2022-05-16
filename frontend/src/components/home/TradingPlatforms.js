@@ -7,7 +7,7 @@ import {createSession} from "../../redux/modules/olx";
 
 const Tr = useTranslation;
 
-function Profile() {
+function TradingPlatforms() {
     const olx = {
         auth_url: 'https://www.olx.ua/oauth/authorize',
         access_token_url: 'https://www.olx.ua/api/open/oauth/token',
@@ -22,7 +22,6 @@ function Profile() {
 
 
     let [searchParams, setSearchParams] = useSearchParams();
-    // const [storage, setStorage] = useState(null);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const olxSession = useSelector(state => state.olx);
@@ -46,21 +45,35 @@ function Profile() {
 
     return (
         <Box>
-            <Typography variant="h4" component="h2">
-                {t("HOME")}
+            <Typography variant="h5" component="h1" sx={{m: 2}}>
+                {t("Please Select Trading Platform")}
             </Typography>
 
-            <Button
-                variant="contained"
-                href={link_to_get_olx_code}
-                // color={ olxSession?.olx_access_token ? "primary" : "secondary"}
-                disabled={!!olxSession?.olx_access_token}
-            >
-                Authorize via olx
-            </Button>
+            <Box>
+                <Button
+                    variant="contained"
+                    href={link_to_get_olx_code}
+                    // color={ olxSession?.olx_access_token ? "primary" : "secondary"}
+                    disabled={!!olxSession?.olx_access_token}
+                    sx={{m: 2}}
+                >
+                    Authorize via olx
+                </Button>
+
+                <Button
+                    variant="contained"
+                    // href={link_to_get_olx_code}
+                    // // color={ olxSession?.olx_access_token ? "primary" : "secondary"}
+                    // disabled={!!olxSession?.olx_access_token}
+                    sx={{m: 2}}
+                >
+                    Authorize via ebay
+                </Button>
+            </Box>
+
         </Box>
     );
 
 }
 
-export default Profile;
+export default TradingPlatforms;
