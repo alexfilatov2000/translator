@@ -1,7 +1,7 @@
 import users from "./users";
-import olx from "./olx"
+import marketplaces from "./marketplaces"
 
 export default {
     users,
-    olx
+    marketplaces
 }

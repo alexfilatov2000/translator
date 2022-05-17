@@ -21,8 +21,9 @@ export default function init() {
     router.post('/register',  controllers.authentication.register);
     router.post('/email-verify/:token',  controllers.authentication.emailVerify);
 
-    // olx
-    router.post('/olx/session', controllers.olx.createSession);
+    // marketplaces
+    router.post('/olx/session', controllers.marketplaces.createSession);
+    router.post('/adverts',  controllers.marketplaces.getAdverts);
 
     // router.use(errorHandler);
 

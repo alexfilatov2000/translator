@@ -3,7 +3,7 @@ import {Box, Button, Typography} from '@mui/material';
 import {useTranslation} from 'react-i18next'
 import {useSearchParams, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {createSession} from "../../redux/modules/olx";
+import {createSession} from "../../redux/modules/marketplaces";
 
 const Tr = useTranslation;
 
@@ -24,7 +24,7 @@ function TradingPlatforms() {
     let [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const olxSession = useSelector(state => state.olx);
+    const olxSession = useSelector(state => state.marketplaces);
 
     const {t} = Tr();
     const code = searchParams.get("code")
