@@ -1,11 +1,23 @@
 import React, {useEffect, useState} from "react";
-import {Box, Button, Typography} from '@mui/material';
+import {Box, Button, Typography, Modal, TextField} from '@mui/material';
 import {useTranslation} from 'react-i18next'
 import {useSearchParams, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {createSession} from "../../redux/modules/marketplaces";
+import {createRiaSession, createSession} from "../../redux/modules/marketplaces";
 
 const Tr = useTranslation;
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 
 function TradingPlatforms() {
     const olx = {
@@ -25,6 +37,11 @@ function TradingPlatforms() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const olxSession = useSelector(state => state.marketplaces);
+    const [open, setOpen] = useState(false);
+    const openRia = () => setOpen(true);
+    const closeRia = () => setOpen(false);
+    const [riaApiKey, setRiaApiKey] = useState('');
+    const [riaUserId, setRiaUserId] = useState('');
 
     const {t} = Tr();
     const code = searchParams.get("code")
@@ -41,7 +58,18 @@ function TradingPlatforms() {
         }
     },[dispatch]);
 
-    console.log({olxSession})
+    const submitRiaApiKey = async (e) => {
+        e.preventDefault();
+        dispatch(createRiaSession({
+            data: {
+                ria_access_token: riaApiKey,
+                user_id: riaUserId
+            }
+        }));
+    };
+
+    const onChangeRiaApiKey = (e) => setRiaApiKey(e.target.value);
+    const onChangeUserId = (e) => setRiaUserId(e.target.value);
 
     return (
         <Box>
@@ -62,13 +90,57 @@ function TradingPlatforms() {
 
                 <Button
                     variant="contained"
+                    onClick={openRia}
                     // href={link_to_get_olx_code}
                     // // color={ olxSession?.olx_access_token ? "primary" : "secondary"}
                     // disabled={!!olxSession?.olx_access_token}
                     sx={{m: 2}}
                 >
-                    Authorize via ebay
+                    Authorize via autoria
                 </Button>
+
+                <Modal
+                    open={open}
+                    onClose={closeRia}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            Please provide your "api key" and "user id"
+                        </Typography>
+
+                        <br/>
+
+                        <form onSubmit={submitRiaApiKey}>
+                            <TextField
+                                required
+                                id="outlined-required"
+                                label="Required"
+                                fullWidth
+                                placeholder="api key"
+                                onChange={onChangeRiaApiKey}
+                            />
+                            <TextField
+                                required
+                                id="outlined-required"
+                                label="Required"
+                                fullWidth
+                                placeholder="user id"
+                                onChange={onChangeUserId}
+                                style={{marginTop: 20}}
+                            />
+                            <Button
+                                type="submit"
+                                variant='contained'
+                                color='primary'
+                                style={{marginTop: 20, float: "right"}}
+                            >
+                                {t("Submit")}
+                            </Button>
+                        </form>
+                    </Box>
+                </Modal>
             </Box>
 
         </Box>

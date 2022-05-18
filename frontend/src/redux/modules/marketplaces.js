@@ -27,6 +27,25 @@ export const createSession = createAsyncThunk(
     }
 )
 
+export const createRiaSession = createAsyncThunk(
+    '/autoria/session',
+    async (param, thunkAPI) => {
+        try {
+            const res = await axios.post(`/autoria/session`, param.data);
+
+            const data = res.data?.data;
+
+            if (!data) {
+                return {error: 'AUTORIA_SESSION_FAILED'};
+            }
+
+            return { success: "updated", data: data };
+        } catch (err) {
+            return {error: err.response.data.error};
+        }
+    }
+)
+
 export const getAdverts = createAsyncThunk(
     '/adverts',
     async (param, thunkAPI) => {
@@ -54,6 +73,7 @@ const initialState = {
     adverts: [],
     olx_access_token: localStorage.getItem('olx_access_token'),
     olx_refresh_token: localStorage.getItem('olx_refresh_token'),
+    ria_access_token: localStorage.getItem('ria_refresh_token'),
 };
 
 const slice = createSlice({
@@ -73,6 +93,10 @@ const slice = createSlice({
         })
         builder.addCase(getAdverts.fulfilled, (state, action) => {
             state.adverts = action.payload.data;
+        })
+        builder.addCase(createRiaSession.fulfilled, (state, action) => {
+            localStorage.setItem('ria_access_token', action.payload.data.access_token);
+            state.ria_access_token = action.payload.data.access_token;
         })
     },
 })

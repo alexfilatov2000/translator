@@ -31,16 +31,16 @@ function Home() {
     console.log(marketplaces);
     if (token) {
         return (
-            <Box>
+            <Box sx={{marginLeft: 30 }}>
                 <Typography variant="h4" component="h2">
                     {t("HOME")}
                 </Typography>
 
                 {marketplaces?.adverts?.map((advert) =>
-                    <Card sx={{ maxWidth: 345, m: 40 }}>
+                    <Card sx={{ maxWidth: 345}}>
                         <CardMedia
                             component="img"
-                            height="140"
+                            height="180"
                             image={advert.image}
                             alt="green iguana"
                         />
