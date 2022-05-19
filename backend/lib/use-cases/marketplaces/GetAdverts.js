@@ -5,13 +5,22 @@ export default class GetAdverts extends Base {
     async validate(data = {}) {
         const rules = {
             olx_access_token    : [ 'string' ],
-            olxEnabled          : [ 'required', 'boolean' ]
+            ria_access_token    : [ 'string' ],
+            autoriaEnabled      : [ 'boolean' ],
+            olxEnabled          : [ 'boolean' ],
+            ria_user_id         : [ 'string' ],
         };
 
         return this.doValidation(data, rules);
     }
 
-    async execute({olxEnabled, olx_access_token}) {
+    async execute({
+        olxEnabled,
+        autoriaEnabled,
+        olx_access_token,
+        ria_access_token,
+        ria_user_id
+    }) {
         let adverts = [];
         if (olxEnabled) {
             try {
@@ -48,7 +57,37 @@ export default class GetAdverts extends Base {
             }
         }
 
-        console.log(adverts);
+        if (autoriaEnabled) {
+            try {
+                const response = await fetch(`https://developers.ria.com/auto/used/autos/ids?api_key=${ria_access_token}&user_id=${ria_user_id}`, {
+                    method  : 'GET',
+                    headers : {
+                        'Content-Type' : 'application/json'
+                    }
+                });
+
+                const advertIds = await response.json();
+                const advertActiveIds = advertIds.active.moderated;
+
+                const advertsInfo = [];
+                for (const advertId of advertActiveIds) {
+                    const advertInfo = await fetch(`https://developers.ria.com/auto/used/autos/${advertId}?api_key=${ria_access_token}&user_id=${ria_user_id}`, {
+                        method  : 'GET',
+                        headers : {
+                            'Content-Type' : 'application/json'
+                        }
+                    });
+                    advertsInfo.push(await advertInfo.json());
+                }
+
+                console.log(advertsInfo);
+
+            } catch (e) {
+                throw e;
+            }
+        }
+
+        // console.log(adverts);
 
         return {
             data : adverts

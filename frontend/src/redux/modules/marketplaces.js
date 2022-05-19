@@ -39,7 +39,11 @@ export const createRiaSession = createAsyncThunk(
                 return {error: 'AUTORIA_SESSION_FAILED'};
             }
 
-            return { success: "updated", data: data };
+            if (data?.error) {
+                return { error: data.error };
+            }
+
+            return { success: true, data };
         } catch (err) {
             return {error: err.response.data.error};
         }
@@ -58,7 +62,7 @@ export const getAdverts = createAsyncThunk(
                 return {error: 'OLX_ADVERTS_FAILED'};
             }
 
-            return { success: "updated", data: data };
+            return { success: "updated", data };
         } catch (err) {
             return {error: err.response.data.error};
         }
@@ -73,7 +77,8 @@ const initialState = {
     adverts: [],
     olx_access_token: localStorage.getItem('olx_access_token'),
     olx_refresh_token: localStorage.getItem('olx_refresh_token'),
-    ria_access_token: localStorage.getItem('ria_refresh_token'),
+    ria_access_token: localStorage.getItem('ria_access_token'),
+    ria_user_id: localStorage.getItem('ria_user_id'),
 };
 
 const slice = createSlice({
@@ -95,8 +100,16 @@ const slice = createSlice({
             state.adverts = action.payload.data;
         })
         builder.addCase(createRiaSession.fulfilled, (state, action) => {
-            localStorage.setItem('ria_access_token', action.payload.data.access_token);
-            state.ria_access_token = action.payload.data.access_token;
+            const ria_access_token = action.payload?.data?.ria_access_token;
+            const ria_user_id = action.payload?.data?.ria_user_id;
+            if (ria_access_token && ria_user_id) {
+                localStorage.setItem('ria_access_token', ria_access_token);
+                localStorage.setItem('ria_user_id', ria_user_id);
+                state.ria_access_token = ria_access_token;
+                state.ria_user_id = ria_user_id;
+            } else {
+                state.error = action.payload?.error;
+            }
         })
     },
 })

@@ -13,15 +13,34 @@ function Home() {
     const dispatch = useDispatch();
 
     const olx_access_token = !!marketplaces?.olx_access_token
+    const ria_access_token = !!marketplaces?.ria_access_token
     const token = !!users?.token;
     const {t} = Tr();
 
     useEffect(() => {
-        if (olx_access_token) {
+        if (olx_access_token && ria_access_token) {
+            dispatch(getAdverts({
+                data: {
+                    olx_access_token: marketplaces?.olx_access_token,
+                    ria_access_token: marketplaces?.ria_access_token,
+                    ria_user_id: marketplaces?.ria_user_id,
+                    olxEnabled: true,
+                    autoriaEnabled: true
+                }
+            }), []);
+        } else if (olx_access_token) {
             dispatch(getAdverts({
                 data: {
                     olx_access_token: marketplaces?.olx_access_token,
                     olxEnabled: true
+                }
+            }), []);
+        } else if (ria_access_token) {
+            dispatch(getAdverts({
+                data: {
+                    ria_access_token: marketplaces?.ria_access_token,
+                    ria_user_id: marketplaces?.ria_user_id,
+                    autoriaEnabled: true
                 }
             }), []);
         }
@@ -37,7 +56,7 @@ function Home() {
                 </Typography>
 
                 {marketplaces?.adverts?.map((advert) =>
-                    <Card sx={{ maxWidth: 345}}>
+                    <Card sx={{ maxWidth: 345}} key={advert.id}>
                         <CardMedia
                             component="img"
                             height="180"

@@ -36,12 +36,13 @@ function TradingPlatforms() {
     let [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const olxSession = useSelector(state => state.marketplaces);
+    const marketplaces = useSelector(state => state.marketplaces);
     const [open, setOpen] = useState(false);
     const openRia = () => setOpen(true);
     const closeRia = () => setOpen(false);
     const [riaApiKey, setRiaApiKey] = useState('');
     const [riaUserId, setRiaUserId] = useState('');
+    const [disableRiaForm, setDisableRiaForm] = useState(false);
 
     const {t} = Tr();
     const code = searchParams.get("code")
@@ -58,8 +59,15 @@ function TradingPlatforms() {
         }
     },[dispatch]);
 
+    useEffect(() => {
+        if (marketplaces?.ria_access_token){
+            setOpen(false);
+        }
+    }, [marketplaces?.ria_access_token])
+
     const submitRiaApiKey = async (e) => {
         e.preventDefault();
+        setDisableRiaForm(true);
         dispatch(createRiaSession({
             data: {
                 ria_access_token: riaApiKey,
@@ -68,6 +76,7 @@ function TradingPlatforms() {
         }));
     };
 
+    console.log({marketplaces})
     const onChangeRiaApiKey = (e) => setRiaApiKey(e.target.value);
     const onChangeUserId = (e) => setRiaUserId(e.target.value);
 
@@ -81,8 +90,7 @@ function TradingPlatforms() {
                 <Button
                     variant="contained"
                     href={link_to_get_olx_code}
-                    // color={ olxSession?.olx_access_token ? "primary" : "secondary"}
-                    disabled={!!olxSession?.olx_access_token}
+                    disabled={!!marketplaces?.olx_access_token}
                     sx={{m: 2}}
                 >
                     Authorize via olx
@@ -91,9 +99,7 @@ function TradingPlatforms() {
                 <Button
                     variant="contained"
                     onClick={openRia}
-                    // href={link_to_get_olx_code}
-                    // // color={ olxSession?.olx_access_token ? "primary" : "secondary"}
-                    // disabled={!!olxSession?.olx_access_token}
+                    disabled={!!marketplaces?.ria_access_token}
                     sx={{m: 2}}
                 >
                     Authorize via autoria
@@ -120,6 +126,7 @@ function TradingPlatforms() {
                                 fullWidth
                                 placeholder="api key"
                                 onChange={onChangeRiaApiKey}
+                                disabled={disableRiaForm}
                             />
                             <TextField
                                 required
@@ -129,12 +136,14 @@ function TradingPlatforms() {
                                 placeholder="user id"
                                 onChange={onChangeUserId}
                                 style={{marginTop: 20}}
+                                disabled={disableRiaForm}
                             />
                             <Button
                                 type="submit"
                                 variant='contained'
                                 color='primary'
                                 style={{marginTop: 20, float: "right"}}
+                                disabled={disableRiaForm}
                             >
                                 {t("Submit")}
                             </Button>

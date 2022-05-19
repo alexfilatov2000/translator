@@ -12,7 +12,7 @@ export default class UsersGetOne extends Base {
     }
 
     async execute({ id }) {
-        const user = await User.findOne({where: {id: id}});
+        const user = await User.findOne({ where: { id } });
 
         return {
             user
