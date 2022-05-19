@@ -71,17 +71,26 @@ export default class GetAdverts extends Base {
 
                 const advertsInfo = [];
                 for (const advertId of advertActiveIds) {
-                    const advertInfo = await fetch(`https://developers.ria.com/auto/used/autos/${advertId}?api_key=${ria_access_token}&user_id=${ria_user_id}`, {
+                    const resAdvertInfo = await fetch(`https://developers.ria.com/auto/used/autos/${advertId}?api_key=${ria_access_token}&user_id=${ria_user_id}`, {
                         method  : 'GET',
                         headers : {
                             'Content-Type' : 'application/json'
                         }
                     });
-                    advertsInfo.push(await advertInfo.json());
+
+                    const resStatistic = await fetch(`https://developers.ria.com/auto/used/autos/${advertId}/statistic?api_key=${ria_access_token}&user_id=${ria_user_id}`, {
+                        method  : 'GET',
+                        headers : {
+                            'Content-Type' : 'application/json'
+                        }
+                    });
+                    const advertInfo = await resAdvertInfo.json();
+                    const statistics = await resStatistic.json();
+                    console.log(statistics);
+                    advertsInfo.push({...advertInfo, statistics});
                 }
 
-                console.log(advertsInfo);
-
+                console.log(advertsInfo)
             } catch (e) {
                 throw e;
             }
