@@ -80,8 +80,7 @@ export const styleAuth = {
 export const styleToolbar = {
     toolbar: {
         background: '#ffffff',
-        boxShadow: '0 0 4px 1px yellow, 0 0 0px #333',
-        borderBottom: "0.1px solid #a2a2a2",
+        boxShadow: '0 0 0 1px #E1E1E1FF, 0 0 0px #333',
     },
     button: {
         marginRight: '20px',

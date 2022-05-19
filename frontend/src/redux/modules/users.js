@@ -21,9 +21,8 @@ export const sendGetUser = createAsyncThunk(
     async (param, thunkAPI) => {
         try {
             if (!param.id) return null;
-            let header = { headers: { Authorization: `Bearer ${param.token}` }}
-            const res = await axios.get(`/users/${param.id}`, header);
-            return res.data;
+            const res = await axios.get(`/users/${param.id}`);
+            return res.data.user;
         } catch (err) {
             return {error: err.response.data.error};
         }
@@ -63,19 +62,6 @@ export const sendCreateUser = createAsyncThunk(
             const user = await axios.post(`/users`, param.user, header);
             param.history.push(`/users/${user.data.id}`);
             return {success: "user created"};
-        } catch (err) {
-            return {error: err.response.data.error};
-        }
-    }
-)
-
-export const sendSetAvatar = createAsyncThunk(
-    'users/sendSetAvatar',
-    async (param, thunkAPI) => {
-        try {
-            let header = { headers: { Authorization: `Bearer ${param.token}` }}
-            const res = await axios.post(`/users/avatar`, param.file, header);
-            return {success: "set avatar", avatar: res.data};
         } catch (err) {
             return {error: err.response.data.error};
         }
@@ -208,12 +194,6 @@ const slice = createSlice({
             state.success = "user deleted";
         })
         builder.addCase(sendCreateUser.fulfilled, (state, action) => {
-            state.error = action.payload.error;
-            state.success = action.payload.success;
-        })
-        builder.addCase(sendSetAvatar.fulfilled, (state, action) => {
-            state.specUser.profile_picture = action.payload;
-            state.user.profile_picture = action.payload;
             state.error = action.payload.error;
             state.success = action.payload.success;
         })

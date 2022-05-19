@@ -15,6 +15,7 @@ export default function init() {
 
     // users
     router.get('/users',  controllers.users.show);
+    router.get('/users/:id',  controllers.users.getOne);
 
     // authentication
     router.post('/login',  controllers.authentication.login);
