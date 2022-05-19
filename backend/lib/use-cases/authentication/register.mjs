@@ -28,7 +28,7 @@ export default class register extends Base {
         });
         const token = await jwt.sign({ id: usrDb.id }, config.tokenEmailKey, { expiresIn: '1h' });
 
-        console.log({token})
+        console.log({ token });
 
         // TODO set correct adminUrl
         const url = `${config.adminUrl}/verify-email/${token}`;

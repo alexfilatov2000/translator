@@ -8,16 +8,16 @@ export default class CreateSession extends Base {
             client_secret : [ 'required', 'string' ],
             scope         : [ 'string', { default: 'v2 read write' } ],
             code          : [ 'required', 'string' ],
-            redirect_uri  : [ 'required', 'string' ],
+            redirect_uri  : [ 'required', 'string' ]
         };
 
         return this.doValidation(data, rules);
     }
 
     async execute(data) {
-
         console.log(data);
         let response;
+
         try {
             response = await fetch('https://www.olx.ua/api/open/oauth/token', {
                 method  : 'POST',
