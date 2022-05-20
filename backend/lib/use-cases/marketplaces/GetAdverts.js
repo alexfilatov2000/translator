@@ -1,14 +1,15 @@
+import fetch from 'node-fetch';
 import Base from '../../use-cases/Base.mjs';
-import {dumpAdvert} from "../../utils/dumps.mjs";
+import { dumpAdvert } from '../../utils/dumps.mjs';
 
 export default class GetAdverts extends Base {
     async validate(data = {}) {
         const rules = {
-            olx_access_token    : [ 'string' ],
-            ria_access_token    : [ 'string' ],
-            autoriaEnabled      : [ 'boolean' ],
-            olxEnabled          : [ 'boolean' ],
-            ria_user_id         : [ 'string' ],
+            olx_access_token : [ 'string' ],
+            ria_access_token : [ 'string' ],
+            autoriaEnabled   : [ 'boolean' ],
+            olxEnabled       : [ 'boolean' ],
+            ria_user_id      : [ 'string' ]
         };
 
         return this.doValidation(data, rules);
@@ -21,37 +22,39 @@ export default class GetAdverts extends Base {
         ria_access_token,
         ria_user_id
     }) {
-        let adverts = [];
+        const adverts = [];
+
         if (olxEnabled) {
             try {
-                const response = await fetch ('https://www.olx.ua/api/partner/adverts', {
+                const response = await fetch('https://www.olx.ua/api/partner/adverts', {
                     method  : 'GET',
                     headers : {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${olx_access_token}`,
-                        'Version': '2.0'
+                        'Content-Type'  : 'application/json',
+                        'Authorization' : `Bearer ${olx_access_token}`,
+                        'Version'       : '2.0'
                     }
                 });
 
                 const olxAdverts = await response.json();
 
+                console.log(olxAdverts);
+
                 for (const advert of olxAdverts.data) {
-                    const res = await fetch (`https://www.olx.ua/api/partner/adverts/${advert.id}/statistics`, {
+                    const res = await fetch(`https://www.olx.ua/api/partner/adverts/${advert.id}/statistics`, {
                         method  : 'GET',
                         headers : {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${olx_access_token}`,
-                            'Version': '2.0'
+                            'Content-Type'  : 'application/json',
+                            'Authorization' : `Bearer ${olx_access_token}`,
+                            'Version'       : '2.0'
                         }
                     });
 
-                    advert.statistics = await res.json()
+                    advert.statistics = await res.json();
                 }
 
-                const dumpOlxAdverts = olxAdverts.data.map(advert => dumpAdvert({advert, olxEnabled: true}))
+                const dumpOlxAdverts = olxAdverts.data.map(advert => dumpAdvert({ advert, olxEnabled: true }));
 
-                adverts = [...dumpOlxAdverts]
-
+                adverts.push(...dumpOlxAdverts);
             } catch (e) {
                 throw e;
             }
@@ -67,11 +70,17 @@ export default class GetAdverts extends Base {
                 });
 
                 const advertIds = await response.json();
+
+                if (!advertIds.active) {
+                    throw advertIds;
+                }
+
                 const advertActiveIds = advertIds.active.moderated;
 
                 const advertsInfo = [];
+
                 for (const advertId of advertActiveIds) {
-                    const resAdvertInfo = await fetch(`https://developers.ria.com/auto/used/autos/${advertId}?api_key=${ria_access_token}&user_id=${ria_user_id}`, {
+                    const resAdvertInfo = await fetch(`https://developers.ria.com/auto/info?auto_id=${advertId}&api_key=${ria_access_token}`, {
                         method  : 'GET',
                         headers : {
                             'Content-Type' : 'application/json'
@@ -86,17 +95,19 @@ export default class GetAdverts extends Base {
                     });
                     const advertInfo = await resAdvertInfo.json();
                     const statistics = await resStatistic.json();
-                    console.log(statistics);
-                    advertsInfo.push({...advertInfo, statistics});
+
+                    advertsInfo.push({ ...advertInfo, statistics, id: advertId });
                 }
 
-                console.log(advertsInfo)
+                const dumpRiaAdverts = advertsInfo.map(advert => dumpAdvert({ advert, autoriaEnabled: true }));
+
+                adverts.push(...dumpRiaAdverts);
             } catch (e) {
                 throw e;
             }
         }
 
-        // console.log(adverts);
+        console.log(adverts);
 
         return {
             data : adverts

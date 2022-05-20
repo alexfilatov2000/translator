@@ -56,13 +56,19 @@ function Home() {
                 </Typography>
 
                 {marketplaces?.adverts?.map((advert) =>
-                    <Card sx={{ maxWidth: 345}} key={advert.id}>
-                        <CardMedia
-                            component="img"
-                            height="180"
-                            image={advert.image}
-                            alt="green iguana"
-                        />
+                    <Card sx={{ width: 300, display: 'inline-block', float: 'left', margin: 2}} key={advert.id}>
+                        <Box style={{position: 'relative'}}>
+                            <CardMedia
+                                component="img"
+                                height="180"
+                                image={advert.image}
+                                alt="green iguana"
+                            />
+
+                            <div style={{position: 'absolute', top: 5, right: 5, width: '20%'}}>
+                                <img src={advert.sourceURL} alt="" style={{width: '100%'}}/>
+                            </div>
+                        </Box>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
                                 {advert.title}
