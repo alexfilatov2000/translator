@@ -88,6 +88,16 @@ const slice = createSlice({
         // createSession: (state, action) => {
         //     state.olxData = action.payload.data;
         // }
+        logOutMarkets: (state, action) => {
+            state.olx_access_token = null;
+            state.olx_refresh_token = null;
+            state.ria_access_token = null;
+            state.ria_user_id = null;
+            localStorage.removeItem('olx_access_token');
+            localStorage.removeItem('olx_refresh_token');
+            localStorage.removeItem('ria_access_token');
+            localStorage.removeItem('ria_user_id');
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(createSession.fulfilled, (state, action) => {
@@ -115,4 +125,4 @@ const slice = createSlice({
 })
 
 export default slice.reducer;
-export const { logOut, setAvatar, clearMess } = slice.actions;
+export const { logOutMarkets } = slice.actions;

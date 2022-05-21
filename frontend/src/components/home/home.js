@@ -3,7 +3,9 @@ import {useTranslation} from 'react-i18next'
 import {useDispatch, useSelector} from "react-redux";
 import * as rr from "react-redux";
 import {createSession, getAdverts} from "../../redux/modules/marketplaces";
-import {Card, CardActions, CardContent, CardMedia, Button, Typography, Box} from "@mui/material";
+import {Card, CardActions, CardContent, CardMedia, Button, Typography, Box, ButtonBase} from "@mui/material";
+import * as rd from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const Tr = useTranslation;
 
@@ -11,6 +13,7 @@ function Home() {
     const users = rr.useSelector(state => state.users);
     const marketplaces = useSelector(state => state.marketplaces);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const olx_access_token = !!marketplaces?.olx_access_token
     const ria_access_token = !!marketplaces?.ria_access_token
@@ -46,8 +49,6 @@ function Home() {
         }
     },[dispatch]);
 
-
-    console.log(marketplaces);
     if (token) {
         return (
             <Box sx={{marginLeft: 30 }}>
@@ -58,36 +59,39 @@ function Home() {
                 {marketplaces?.adverts?.map((advert) =>
                     <Card sx={{ width: 300, display: 'inline-block', float: 'left', margin: 2}} key={advert.id}>
                         <Box style={{position: 'relative'}}>
-                            <CardMedia
-                                component="img"
-                                height="180"
-                                image={advert.image}
-                                alt="green iguana"
-                            />
+                            <ButtonBase style={{width:"100%"}} onClick={()=>{window.open(advert.url, "_blank")}}>
+                                <CardMedia
+                                    component="img"
+                                    height="180"
+                                    image={advert.image}
+                                    alt="green iguana"
+                                />
 
-                            <div style={{position: 'absolute', top: 5, right: 5, width: '20%'}}>
-                                <img src={advert.sourceURL} alt="" style={{width: '100%'}}/>
-                            </div>
+                                <div style={{position: 'absolute', top: 5, right: 5, width: '20%'}}>
+                                    <img src={advert.sourceURL} alt="" style={{width: '100%'}}/>
+                                </div>
+                            </ButtonBase>
                         </Box>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
                                 {advert.title}
                             </Typography>
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
                                 current prise: {advert.price}
                             </Typography>
-
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
                                 {advert.description}
                             </Typography>
-
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
                                 status: {advert.status}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
+                                date: {advert.expireDate}
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button size="small">Share</Button>
-                            <Button size="small">Learn More</Button>
+                            {/*<Button size="small">Share</Button>*/}
+                            <Button onClick={()=>{window.open(advert.url, "_blank")}} size="small" >Learn More</Button>
                         </CardActions>
                     </Card>
                 )}

@@ -2,20 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from "../utils/axios";
 import {parseToken} from "../../utils/parseToken";
 
-export const sendGetUserById = createAsyncThunk(
-    'users/sendGetUserById',
-    async (param, thunkAPI) => {
-        try {
-            if (!param.id) return null;
-            let header = { headers: { Authorization: `Bearer ${param.token}` }}
-            const res = await axios.get(`/users/${param.id}`, header);
-            return res.data;
-        } catch (err) {
-            return {error: err.response.data.error};
-        }
-    }
-)
-
 export const sendGetUser = createAsyncThunk(
     'users/sendGetUser',
     async (param, thunkAPI) => {
@@ -29,39 +15,12 @@ export const sendGetUser = createAsyncThunk(
     }
 )
 
-export const sendGetAllUsers = createAsyncThunk(
-    'users/sendGetAllUsers',
-    async (param) => {
-        try {
-            const lim = 10
-            const res = await axios.get(`/users?limit=${lim}&offset=${lim*(param.page-1)}`);
-            return {users: res.data.users, count: res.data.count, page: param.page};
-        } catch (err) {
-            return {error: err.response.data.error};
-        }
-    }
-)
-
 export const sendDeleteUser = createAsyncThunk(
     'users/sendDeleteUser',
     async (id) => {
         try {
             await axios.delete(`/users/${id}`);
             return {success: "user deleted"};
-        } catch (err) {
-            return {error: err.response.data.error};
-        }
-    }
-)
-
-export const sendCreateUser = createAsyncThunk(
-    'users/sendCreateUser',
-    async (param) => {
-        try {
-            let header = { headers: { Authorization: `Bearer ${param.token}` }}
-            const user = await axios.post(`/users`, param.user, header);
-            param.history.push(`/users/${user.data.id}`);
-            return {success: "user created"};
         } catch (err) {
             return {error: err.response.data.error};
         }
@@ -86,7 +45,7 @@ export const sendLogin = createAsyncThunk(
     async (param, thunkAPI) => {
         try {
             const res = await axios.post(`/login`, param.user);
-            param.navigate('/');
+            param.navigate("/")
             localStorage.setItem('token', res.data.token)
             return {
                 token: localStorage.getItem('token'),
@@ -127,18 +86,7 @@ export const sendVerifyEmail = createAsyncThunk(
     }
 )
 
-export const sendFollowUser = createAsyncThunk(
-    'users/sendFollowUser',
-    async (param) => {
-        let header = { headers: { Authorization: `Bearer ${param.token}` }}
-        const follow = await axios.post(`/users/${param.id}/follow`, null, header);
-        return {follow: follow.data.follow, dFollow: follow.data.dFollow};
-    }
-)
-
 const initialState = {
-    users: [],
-    specUser: null,
     error: null,
     success: null,
     status: 'idle',
@@ -158,24 +106,12 @@ const slice = createSlice({
             state.success = "logout";
             localStorage.removeItem('token');
         },
-        setAvatar: (state, action) => {
-            state.user.profile_picture = action.payload;
-        },
         clearMess: (state, action) => {
             state.error = null;
             state.success = null;
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(sendGetAllUsers.fulfilled, (state, action) => {
-            state.count = action.payload.count;
-            state.page = action.payload.page;
-            state.users = action.payload.users;
-            state.specUser = null;
-        })
-        builder.addCase(sendGetUserById.fulfilled, (state, action) => {
-            state.specUser = action.payload;
-        })
         builder.addCase(sendGetUser.fulfilled, (state, action) => {
             const token = parseToken(state.token);
             if (Date.now() >= token.exp * 1000){
@@ -192,10 +128,6 @@ const slice = createSlice({
             state.specUser = null;
             state.users = null;
             state.success = "user deleted";
-        })
-        builder.addCase(sendCreateUser.fulfilled, (state, action) => {
-            state.error = action.payload.error;
-            state.success = action.payload.success;
         })
         builder.addCase(sendUpdate.fulfilled, (state, action) => {
             state.error = action.payload.error;
@@ -216,20 +148,8 @@ const slice = createSlice({
             state.error = action.payload.error;
             state.success = action.payload.success;
         })
-        builder.addCase(sendFollowUser.fulfilled, (state, action) => {
-            const {follow, dFollow} = action.payload;
-            if (follow){
-                state.specUser.followers.unshift(follow)
-                state.specUser.userFollower = true;
-            } else {
-                state.specUser.followers = state.specUser.followers.filter(x => {
-                    return x.id !== dFollow.id;
-                })
-                state.specUser.userFollower = false;
-            }
-        })
     }
 })
 
 export default slice.reducer;
-export const { logOut, setAvatar, clearMess } = slice.actions;
+export const { logOut, clearMess } = slice.actions;

@@ -6,6 +6,7 @@ import {logOut, sendGetUser} from "../../redux/modules/users";
 import {parseToken} from '../../utils/parseToken';
 import * as rd from "react-router-dom";
 import Lg from "../toolbar/lgSelector"
+import {logOutMarkets} from "../../redux/modules/marketplaces";
 
 const Tr = useTranslation;
 
@@ -48,7 +49,7 @@ const styles = {
         boxShadow: '0 0 0 0px black, 0 0 4px #333',
     },
     text: {
-        color: '#a2a2a2',
+        // color: '#a2a2a2',
     }
 }
 
@@ -61,6 +62,7 @@ export default function Settings() {
 
     const handleLogOut = () => {
         dispatch(logOut())
+        dispatch(logOutMarkets())
         navigate('/');
     }
 

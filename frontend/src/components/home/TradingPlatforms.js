@@ -122,7 +122,7 @@ function TradingPlatforms() {
                             <TextField
                                 required
                                 id="outlined-required"
-                                label="Required"
+                                label="api key"
                                 fullWidth
                                 placeholder="api key"
                                 onChange={onChangeRiaApiKey}
@@ -131,7 +131,7 @@ function TradingPlatforms() {
                             <TextField
                                 required
                                 id="outlined-required"
-                                label="Required"
+                                label="user id"
                                 fullWidth
                                 placeholder="user id"
                                 onChange={onChangeUserId}

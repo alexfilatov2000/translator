@@ -27,7 +27,6 @@ export function makeUseCaseRunner(
             context
         });
 
-
         return render(req, res, resultPromise, next);
     };
 }
