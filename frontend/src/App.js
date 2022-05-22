@@ -10,6 +10,7 @@ import NotFound from "./components/utils/notfound";
 import Home from "./components/home/home";
 import TradingPlatforms from "./components/home/TradingPlatforms"
 import Settings from "./components/users/settings";
+import Statistics from "./components/home/Statistics";
 // import Sale from "./components/sale/sale";
 import {RouteClient} from "./components/utils/route";
 
@@ -28,6 +29,7 @@ function App(){
                     <Route exact path="/verify-email/:token" element={<RegisterVerify/>}/>
                     <Route exact path="/settings" element={<Settings/>}/>
                     <Route exact path="/trading-platform" element={<TradingPlatforms/>}/>
+                    <Route exact path="/statistics" element={<Statistics/>}/>
                     <Route exact path="/404" element={<NotFound/>}/>
                     <Route path="*" element={<NotFound/>}/>
                 </Routes>

@@ -132,7 +132,7 @@ function Home() {
                             <Typography variant="body2" color="text.secondary" style={{textAlign:"left", color: "red"}}>
                                 Expiration Date: {moment(advert.expireDate).format('L')}
                             </Typography>
-                            <Box style={{backgroundColor: '#e6e4e5', display: "flex", justifyContent: "center", alignContent: "center", flexDirection: "row", lineHeight: 2}}>
+                            <Box style={{backgroundColor: '#e6e4e5', display: "flex", justifyContent: "center", alignContent: "center", flexDirection: "row", lineHeight: 2, borderRadius: 5, marginTop: 10}}>
                                 <span style={{verticalAlign: "middle", marginRight: 20}}>Statisticts</span>
                                 <span style={{ marginRight: 5}}><RemoveRedEyeOutlinedIcon/>{advert.statistics.advert_views}</span>
                                 <span style={{ marginRight: 5}}><FavoriteBorderOutlinedIcon/>{advert.statistics.users_observing}</span>
@@ -140,7 +140,7 @@ function Home() {
                             </Box>
                         </CardContent>
                         <CardActions style={{float: "right"}}>
-                            <Button onClick={()=>{window.open(advert.url, "_blank")}} size="small" >GO to source</Button>
+                            <Button style={{float: "right", color: 'grey'}} onClick={()=>{window.open(advert.url, "_blank")}} size="small" >GO to source</Button>
                         </CardActions>
                     </Card>
                 )}

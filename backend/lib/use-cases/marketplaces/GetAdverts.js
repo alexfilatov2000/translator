@@ -23,6 +23,10 @@ export default class GetAdverts extends Base {
         ria_user_id
     }) {
         const adverts = [];
+        const sourceCount = {
+            OLX     : 0,
+            AutoRIA : 0
+        };
 
         if (olxEnabled) {
             try {
@@ -55,6 +59,7 @@ export default class GetAdverts extends Base {
                 const dumpOlxAdverts = olxAdverts.data.map(advert => dumpAdvert({ advert, olxEnabled: true }));
 
                 adverts.push(...dumpOlxAdverts);
+                sourceCount.OLX = dumpOlxAdverts.length;
             } catch (e) {
                 throw e;
             }
@@ -102,6 +107,7 @@ export default class GetAdverts extends Base {
                 const dumpRiaAdverts = advertsInfo.map(advert => dumpAdvert({ advert, autoriaEnabled: true }));
 
                 adverts.push(...dumpRiaAdverts);
+                sourceCount.AutoRIA = dumpRiaAdverts.length;
             } catch (e) {
                 throw e;
             }
@@ -110,7 +116,10 @@ export default class GetAdverts extends Base {
         console.log(adverts);
 
         return {
-            data : adverts
+            data : {
+                adverts,
+                sourceCount
+            }
         };
     }
 }
