@@ -36,7 +36,6 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Zoom from '@mui/material/Zoom';
 const Tr = useTranslation;
 
-
 export function ScrollTop(props) {
     const { children } = props;
         const trigger = useScrollTrigger({

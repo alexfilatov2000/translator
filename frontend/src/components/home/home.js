@@ -20,11 +20,14 @@ import {
     InputLabel,
     Select,
     OutlinedInput,
-    MenuItem
+    MenuItem,
+    Autocomplete, TextField
 } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 import {useNavigate} from "react-router-dom";
 
 const Tr = useTranslation;
+
 
 function Home() {
     const users = rr.useSelector(state => state.users);
@@ -70,11 +73,15 @@ function Home() {
         setFilter(event.target.value);
     };
 
+    const handleSearch = (event, newValues) => {
+        navigate(`#${newValues.id}`);
+    };
+
     if (token) {
         return (
             <Box sx={{marginLeft: 30 }}>
-                <Box style={{textAlign: "right"}}>
-                    <FormControl style={{right: 10, top: 30, width: 150, textAlign: "center"}}>
+                <Box display={'flex'}>
+                    <FormControl style={{width: 150, marginTop: 10, marginLeft: 20, textAlign: "center"}}>
                         <InputLabel id="demo-multiple-name-label">Filter</InputLabel>
                         <Select
                             labelId="demo-multiple-name-label"
@@ -94,57 +101,68 @@ function Home() {
                             ))}
                         </Select>
                     </FormControl>
+                    <Box style={{width: 150, marginTop: 10, marginLeft: 20, textAlign: "center"}}>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={marketplaces?.adverts}
+                            getOptionLabel={(option) => option.title}
+                            onChange={handleSearch}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Find one ..." />}
+                        />
+                    </Box>
                 </Box>
 
-
                 {marketplaces?.adverts?.filter(el => filter.includes(el.source)).map((advert) =>
-                    <Card sx={{ width: 300, display: 'inline-block', float: 'left', margin: 2}} key={advert.id}>
-                        <Box style={{position: 'relative'}}>
-                            <ButtonBase style={{width:"100%"}} onClick={()=>{window.open(advert.url, "_blank")}}>
-                                <CardMedia
-                                    component="img"
-                                    height="180"
-                                    image={advert.image}
-                                    alt="green iguana"
-                                />
+                    <a name={advert.id}>
+                        <Card sx={{ width: 300, display: 'inline-block', float: 'left', margin: 2}} key={advert.id}>
+                            <Box style={{position: 'relative'}}>
+                                <ButtonBase style={{width:"100%"}} onClick={()=>{window.open(advert.url, "_blank")}}>
+                                    <CardMedia
+                                        component="img"
+                                        height="180"
+                                        image={advert.image}
+                                        alt="green iguana"
+                                    />
 
-                                <div style={{position: 'absolute', top: 5, right: 5, width: '20%'}}>
-                                    <img src={advert.sourceURL} alt="" style={{width: '100%'}}/>
-                                </div>
-                            </ButtonBase>
-                        </Box>
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                {advert.title}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
-                                Source: {advert.source}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
-                                Prise: {advert.price}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
-                                status: {advert.status}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" style={{textAlign:"left", color: "green"}}>
-                                Creation Date: {moment(advert.createdAt).format('L')}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" style={{textAlign:"left", color: "red"}}>
-                                Expiration Date: {moment(advert.expireDate).format('L')}
-                            </Typography>
-                            <Box style={{backgroundColor: '#e6e4e5', display: "flex", justifyContent: "center", alignContent: "center", flexDirection: "row", lineHeight: 2}}>
-                                <span style={{verticalAlign: "middle", marginRight: 20}}>Statisticts</span>
-                                <span style={{ marginRight: 5}}><RemoveRedEyeOutlinedIcon/>{advert.statistics.advert_views}</span>
-                                <span style={{ marginRight: 5}}><FavoriteBorderOutlinedIcon/>{advert.statistics.users_observing}</span>
-                                <span style={{ marginRight: 5}}><LocalPhoneOutlinedIcon/>{advert.statistics.phone_views}</span>
+                                    <div style={{position: 'absolute', top: 5, right: 5, width: '20%'}}>
+                                        <img src={advert.sourceURL} alt="" style={{width: '100%'}}/>
+                                    </div>
+                                </ButtonBase>
                             </Box>
-                        </CardContent>
-                        <CardActions style={{float: "right"}}>
-                            <Button onClick={()=>{window.open(advert.url, "_blank")}} size="small" >GO to source</Button>
-                        </CardActions>
-                    </Card>
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    {advert.title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
+                                    Source: {advert.source}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
+                                    Prise: {advert.price}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
+                                    status: {advert.status}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" style={{textAlign:"left", color: "green"}}>
+                                    Creation Date: {moment(advert.createdAt).format('L')}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" style={{textAlign:"left", color: "red"}}>
+                                    Expiration Date: {moment(advert.expireDate).format('L')}
+                                </Typography>
+                                <Box style={{backgroundColor: '#e6e4e5', display: "flex", justifyContent: "center", alignContent: "center", flexDirection: "row", lineHeight: 2}}>
+                                    <span style={{verticalAlign: "middle", marginRight: 20}}>Statisticts</span>
+                                    <span style={{ marginRight: 5}}><RemoveRedEyeOutlinedIcon/>{advert.statistics.advert_views}</span>
+                                    <span style={{ marginRight: 5}}><FavoriteBorderOutlinedIcon/>{advert.statistics.users_observing}</span>
+                                    <span style={{ marginRight: 5}}><LocalPhoneOutlinedIcon/>{advert.statistics.phone_views}</span>
+                                </Box>
+                            </CardContent>
+                            <CardActions style={{float: "right"}}>
+                                <Button onClick={()=>{window.open(advert.url, "_blank")}} size="small" >GO to source</Button>
+                            </CardActions>
+                        </Card>
+                    </a>
                 )}
-
             </Box>
         );
     }
