@@ -62,6 +62,8 @@ export const getAdverts = createAsyncThunk(
                 return {error: 'OLX_ADVERTS_FAILED'};
             }
 
+            console.log(data)
+
             return { success: "updated", data };
         } catch (err) {
             return {error: err.response.data.error};
@@ -93,6 +95,7 @@ const slice = createSlice({
             state.olx_refresh_token = null;
             state.ria_access_token = null;
             state.ria_user_id = null;
+            state.sourceCount = null;
             localStorage.removeItem('olx_access_token');
             localStorage.removeItem('olx_refresh_token');
             localStorage.removeItem('ria_access_token');
@@ -107,7 +110,8 @@ const slice = createSlice({
             state.olx_refresh_token = action.payload.data.refresh_token;
         })
         builder.addCase(getAdverts.fulfilled, (state, action) => {
-            state.adverts = action.payload.data;
+            state.adverts = action.payload.data.adverts;
+            state.sourceCount = action.payload.data.sourceCount;
         })
         builder.addCase(createRiaSession.fulfilled, (state, action) => {
             const ria_access_token = action.payload?.data?.ria_access_token;

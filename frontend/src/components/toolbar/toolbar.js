@@ -100,6 +100,10 @@ export default function ToolbarMain(props) {
         navigate(`/trading-platform`)
     }
 
+    const statistics = () => {
+        navigate(`/statistics`)
+    }
+
     // const olx = () => {
     //     navigate(`/`)
     // }
@@ -113,12 +117,12 @@ export default function ToolbarMain(props) {
                     text: 'HOME',
                     func: home
                 }, {
+                     text: 'Statistics',
+                     func: statistics
+                }, {
                     text: 'Trading Platforms',
                     func: tradingPlatforms
-                }, {
-                     text: 'OLX Adverts',
-                     func: home
-                    }
+                },
                 ]
                     .map(({text, func}) => (
                     <ListItem key={text} disablePadding>
