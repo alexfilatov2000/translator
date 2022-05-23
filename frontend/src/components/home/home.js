@@ -21,15 +21,15 @@ import {
     Select,
     OutlinedInput,
     MenuItem,
-    Autocomplete, TextField
+    Autocomplete, TextField, Dialog, DialogTitle
 } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import {useNavigate} from "react-router-dom";
+import CardProduct from "./card"
 
 const Tr = useTranslation;
 
-
-function Home() {
+export default function Home() {
     const users = rr.useSelector(state => state.users);
     const marketplaces = useSelector(state => state.marketplaces);
     const dispatch = useDispatch();
@@ -39,6 +39,9 @@ function Home() {
     const ria_access_token = !!marketplaces?.ria_access_token
     const token = !!users?.token;
     const {t} = Tr();
+
+    const [open, setOpen] = React.useState(false);
+    const [searchProduct, setSearchProduct] = React.useState(null);
 
     useEffect(() => {
         if (olx_access_token && ria_access_token) {
@@ -75,7 +78,16 @@ function Home() {
 
     const handleSearch = (event, newValues) => {
         navigate(`#${newValues.id}`);
+        setOpen(true);
+        setSearchProduct(newValues);
     };
+
+    const handleClose = () => {
+        setOpen(false);
+        setSearchProduct(null);
+
+    };
+
 
     if (token) {
         return (
@@ -103,6 +115,7 @@ function Home() {
                     </FormControl>
                     <Box style={{width: 150, marginTop: 10, marginLeft: 20, textAlign: "center"}}>
                         <Autocomplete
+                            value={null}
                             disablePortal
                             id="combo-box-demo"
                             options={marketplaces?.adverts}
@@ -113,56 +126,19 @@ function Home() {
                         />
                     </Box>
                 </Box>
-
                 {marketplaces?.adverts?.filter(el => filter.includes(el.source)).map((advert) =>
                     <a name={advert.id}>
-                        <Card sx={{ width: 300, display: 'inline-block', float: 'left', margin: 2}} key={advert.id}>
-                            <Box style={{position: 'relative'}}>
-                                <ButtonBase style={{width:"100%"}} onClick={()=>{window.open(advert.url, "_blank")}}>
-                                    <CardMedia
-                                        component="img"
-                                        height="180"
-                                        image={advert.image}
-                                        alt="green iguana"
-                                    />
-
-                                    <div style={{position: 'absolute', top: 5, right: 5, width: '20%'}}>
-                                        <img src={advert.sourceURL} alt="" style={{width: '100%'}}/>
-                                    </div>
-                                </ButtonBase>
-                            </Box>
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="div">
-                                    {advert.title}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
-                                    Source: {advert.source}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
-                                    Prise: {advert.price}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
-                                    status: {advert.status}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" style={{textAlign:"left", color: "green"}}>
-                                    Creation Date: {moment(advert.createdAt).format('L')}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" style={{textAlign:"left", color: "red"}}>
-                                    Expiration Date: {moment(advert.expireDate).format('L')}
-                                </Typography>
-                                <Box style={{backgroundColor: '#e6e4e5', display: "flex", justifyContent: "center", alignContent: "center", flexDirection: "row", lineHeight: 2}}>
-                                    <span style={{verticalAlign: "middle", marginRight: 20}}>Statisticts</span>
-                                    <span style={{ marginRight: 5}}><RemoveRedEyeOutlinedIcon/>{advert.statistics.advert_views}</span>
-                                    <span style={{ marginRight: 5}}><FavoriteBorderOutlinedIcon/>{advert.statistics.users_observing}</span>
-                                    <span style={{ marginRight: 5}}><LocalPhoneOutlinedIcon/>{advert.statistics.phone_views}</span>
-                                </Box>
-                            </CardContent>
-                            <CardActions style={{float: "right"}}>
-                                <Button onClick={()=>{window.open(advert.url, "_blank")}} size="small" >GO to source</Button>
-                            </CardActions>
-                        </Card>
+                        <CardProduct key={advert.id} advert={advert}/>
                     </a>
                 )}
+                {searchProduct &&
+                    <Dialog onClose={handleClose} open={open}>
+                        <DialogTitle>
+                            Product
+                        </DialogTitle>
+                        <CardProduct advert={searchProduct}/>
+                    </Dialog>
+                }
             </Box>
         );
     }
@@ -178,5 +154,3 @@ function Home() {
         </Box>
     );
 }
-
-export default Home;
