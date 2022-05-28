@@ -24,7 +24,7 @@ function TradingPlatforms() {
         auth_url: 'https://www.olx.ua/oauth/authorize',
         access_token_url: 'https://www.olx.ua/api/open/oauth/token',
         scope: 'v2 read write',
-        redirect_uri: 'https://7de1-109-108-90-166.eu.ngrok.io/trading-platform',
+        redirect_uri: 'https://87fc-2a03-b0c0-3-d0-00-11b-4001.eu.ngrok.io/trading-platform',
         response_type: 'code',
         client_id: '200734',
         client_secret: 'LCd28F8UK3XItznGMccxrroUhvlRejLBuxI2Hbt3av5eLDNU',
