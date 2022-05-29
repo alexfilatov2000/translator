@@ -66,62 +66,58 @@ function Statistics() {
 
     const [days, setDays] = React.useState(6);
 
-    const [dataViews, setDataViews] = React.useState([
-        getRandom(10,40),
-        getRandom(40,50),
-        getRandom(30,70),
-        getRandom(50,65),
-        getRandom(30,50),
-        getRandom(20,30),
-        getRandom(10,25),
-    ]);
-    const [dataObserving, setDataObserving] = React.useState([
-        getRandom(5,10),
-        getRandom(4,7),
-        getRandom(3,5),
-        getRandom(0,2),
-        getRandom(0,1),
-        getRandom(0,1),
-        getRandom(0,1),
-    ]);
-    const [dataViewsPhone, setDataViewsPhone] = React.useState([
-        getRandom(5,15),
-        getRandom(8,10),
-        getRandom(6,9),
-        getRandom(3,8),
-        getRandom(2,5),
-        getRandom(1,3),
-        getRandom(0,1),
-    ]);
+    const changeDays = (d, p) => {
+        let tmp1 = [];
+        let tmp2 = [];
+        let tmp3 = [];
+        for (let i = 0; i <= d; i++){
+            if (p){
+                let dateOfProduct = new Date(p.createdAt)
+                let date = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
+                console.log({dateOfProduct, date})
+                if (date >= dateOfProduct){
+                    let to = d-i;
+                    tmp1.push(getRandom(to, to*2));
+                    tmp2.push(getRandom(to/5, to/2));
+                    tmp3.push(getRandom(to/5, to/2));
+                }
+                else {
+                    tmp1.unshift(0);
+                    tmp2.unshift(0);
+                    tmp3.unshift(0);
+                }
+            }
+            else {
+                let to = d-i;
+                tmp1.push(getRandom(to, to*2))
+                tmp2.push(getRandom(to/5, to/2))
+                tmp3.push(getRandom(to/5, to/2))
+            }
+        }
+        return {tmp1, tmp2, tmp3}
+    }
+
+    const daysData = changeDays(days, product);
+    const [dataViews, setDataViews] = React.useState(daysData.tmp1);
+    const [dataObserving, setDataObserving] = React.useState(daysData.tmp2);
+    const [dataViewsPhone, setDataViewsPhone] = React.useState(daysData.tmp3);
 
     const handleChange = (event) => {
         setProduct(event.target.value);
+        const {tmp1, tmp2, tmp3} = changeDays(days, event.target.value);
+        setDataViews(tmp1)
+        setDataObserving(tmp2)
+        setDataViewsPhone(tmp3)
     };
 
     const handleChangeDays = (event) => {
         setDays(event.target.value);
-
         const d = event.target.value
-
-        let tmp1 = [];
-        let tmp2 = [];
-        let tmp3 = [];
-        for (let i = d; i >= 0; i--){
-            if (product){
-
-            }
-            else {
-                tmp1.push(getRandom((i/2), i))
-                tmp2.push(getRandom((i/5), i/2))
-                tmp3.push(getRandom((i/5), i/2))
-            }
-        }
+        const {tmp1, tmp2, tmp3} = changeDays(d, product)
         console.log({tmp1, tmp2, tmp3})
-
         setDataViews(tmp1)
         setDataObserving(tmp2)
         setDataViewsPhone(tmp3)
-        console.log({dataViews, dataObserving, dataViewsPhone})
     };
 
     console.log({product});
@@ -333,47 +329,43 @@ function Statistics() {
                 </Box>
 
                 <Box style={{textAlign: 'center'}}>
-                    <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                        <Box display={'flex'} style={{alignContent: "space-between"}}>
-                            <Box width={200}>
-                                <Select
-                                    id="demo-simple-select-standard"
-                                    value={product}
-                                    onChange={handleChange}
-                                    label="Select Product"
-                                >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
+                    <Box display={'flex'} style={{marginTop: 40}}>
+                        <FormControl variant="standard" sx={{ m: 1, minWidth: 130 }}>
+                            <InputLabel>Select Product</InputLabel>
+                            <Select
+                                value={product}
+                                onChange={handleChange}
+                                label="Select Product"
+                                style={{width:"100%"}}
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
 
-                                    {marketplaces?.adverts?.map(advert =>
-                                        <MenuItem value={advert} key={advert.id} >{advert.title}</MenuItem>
-                                    )}
-                                </Select>
-                            </Box>
-                            <Box>
-                                <Select
-                                    value={days}
-                                    onChange={handleChangeDays}
-                                    placeholder="Select Product"
-                                >
-                                    <MenuItem value={6}>
-                                        <em>week</em>
-                                    </MenuItem>
-                                    <MenuItem value={0}>
-                                        <em>day</em>
-                                    </MenuItem>
-                                    <MenuItem value={daysInMonth(-1)}>
-                                        <em>month</em>
-                                    </MenuItem>
-                                    <MenuItem value={getDaysInThisYear()}>
-                                        <em>year</em>
-                                    </MenuItem>
-                                </Select>
-                            </Box>
-                        </Box>
-                    </FormControl>
-
+                                {marketplaces?.adverts?.map(advert =>
+                                    <MenuItem value={advert} key={advert.id} >{advert.title}</MenuItem>
+                                )}
+                            </Select>
+                        </FormControl>
+                        <FormControl variant="standard" sx={{ m: 1, minWidth: 130 }}>
+                            <InputLabel>Select time</InputLabel>
+                            <Select
+                                value={days}
+                                onChange={handleChangeDays}
+                                lable="Select time"
+                            >
+                                <MenuItem value={6}>
+                                    <em>week</em>
+                                </MenuItem>
+                                <MenuItem value={daysInMonth(-1)}>
+                                    <em>month</em>
+                                </MenuItem>
+                                <MenuItem value={365}>
+                                    <em>year</em>
+                                </MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
                     <Line options={lineOptions} data={lineData} />
                 </Box>
             </Box>
