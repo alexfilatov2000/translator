@@ -90,6 +90,25 @@ export const cloneAdverts = createAsyncThunk(
     }
 )
 
+export const markAsSold = createAsyncThunk(
+    '/adverts/mark_as_sold',
+    async (param, thunkAPI) => {
+        try {
+            const res = await axios.post(`/adverts/mark_as_sold`, param.data);
+
+            const data = res.data?.data;
+
+            if (!data) {
+                return {error: 'MARK_AS_SOLD_FAILED'};
+            }
+
+            return { success: "updated", data };
+        } catch (err) {
+            return {error: err.response.data.error};
+        }
+    }
+)
+
 
 const initialState = {
     data: null,

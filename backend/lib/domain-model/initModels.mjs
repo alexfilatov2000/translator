@@ -1,6 +1,10 @@
 import cls                     from 'cls-hooked';
 import Sequelize               from 'sequelize';
 import User                    from './User.mjs';
+import Product from './Product.mjs';
+import Source from './Source.mjs';
+import Currency from './Currency.mjs';
+import Statistic from './Statistic.mjs';
 
 const namespace = cls.createNamespace('sequelize');
 
@@ -17,7 +21,11 @@ export function initModels(dbConfig) {
     });
 
     const models = {
-        User
+        User,
+        Product,
+        Source,
+        Currency,
+        Statistic
     };
 
     Object.values(models).forEach(model => model.init(sequelize));

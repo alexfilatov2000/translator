@@ -2,11 +2,13 @@ import React, {useEffect, useState} from "react";
 import {useTranslation} from 'react-i18next'
 import {useDispatch, useSelector} from "react-redux";
 import * as rr from "react-redux";
-import {createRiaSession, createSession, getAdverts, cloneAdverts} from "../../redux/modules/marketplaces";
+import {createRiaSession, createSession, getAdverts, cloneAdverts, markAsSold} from "../../redux/modules/marketplaces";
 import moment from 'moment';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
+import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import {
     Card,
     CardActions,
@@ -21,7 +23,14 @@ import {
     Select,
     OutlinedInput,
     MenuItem,
-    Autocomplete, TextField, Modal
+    Autocomplete,
+    TextField,
+    Modal,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions
 } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import {useNavigate} from "react-router-dom";
@@ -48,6 +57,7 @@ function Home() {
     const navigate = useNavigate();
 
     const [advertForClone, setAdvertForClone] = useState({});
+    const [advertForSold, setAdvertForSold] = useState({});
 
     const openAdvertForm = (e, advert) => {
         setAdvertForClone(advert)
@@ -56,6 +66,7 @@ function Home() {
     const closeAdvertForm = () => setOpen(false);
     const [open, setOpen] = useState(false);
     const [numberOfAdverts, setNumberOfAdverts] = React.useState(1);
+    const [openCompleteDialog, setOpenCompleteDialog] = useState(false);
     const [filter, setFilter] = React.useState(['OLX', 'AutoRIA']);
     const olx_access_token = !!marketplaces?.olx_access_token
     const ria_access_token = !!marketplaces?.ria_access_token
@@ -116,6 +127,91 @@ function Home() {
 
     const hundred = [...Array(100).keys()].map(foo => foo + 1);
 
+    const handleMarkAsSold = (e) => {
+        e.preventDefault();
+        dispatch(markAsSold({
+            data: {
+                advert: advertForSold,
+                olx_access_token: marketplaces?.olx_access_token
+            }
+        }));
+
+        // handleCloseCompleteDialog();
+    }
+
+    const modal = (
+        <Modal
+            open={open}
+            onClose={closeAdvertForm}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                    Select number of products you want to create
+                </Typography>
+
+                <br/>
+                <form onSubmit={handleCloneAdverts}>
+                    <InputLabel id="demo-simple-select-standard-label">Number</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-standard-label"
+                        id="demo-simple-select-standard"
+                        value={numberOfAdverts}
+                        onChange={onChangeNumberOfAdverts}
+                        label="Age"
+                        fullWidth
+                    >
+                        {hundred.map(el =>
+                            <MenuItem key={el} value={el}>{el}</MenuItem>
+                        )}
+                    </Select>
+                    <Button
+                        type="submit"
+                        variant='contained'
+                        color='primary'
+                        style={{marginTop: 20, float: "right"}}
+                    >
+                        {t("Submit")}
+                    </Button>
+                </form>
+            </Box>
+        </Modal>
+    )
+
+    const handleOpenCompleteDialog = (e, advert) => {
+        setAdvertForSold(advert)
+        setOpenCompleteDialog(true);
+    };
+
+    const handleCloseCompleteDialog = () => {
+        setOpenCompleteDialog(false);
+    };
+
+    const completeDialog = (
+        <Dialog
+            open={openCompleteDialog}
+            onClose={handleCloseCompleteDialog}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogTitle id="alert-dialog-title">
+                {"Are you sure you want to mark the product as sold?"}
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    This action affects the general statistics which cannot be changed.
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleCloseCompleteDialog}>Cancel</Button>
+                <Button onClick={handleMarkAsSold} autoFocus>
+                    Yes
+                </Button>
+            </DialogActions>
+        </Dialog>
+    )
+
     if (token) {
         return (
             <Box sx={{marginLeft: 30 }}>
@@ -155,7 +251,7 @@ function Home() {
 
                 {marketplaces?.adverts?.filter(el => filter.includes(el.source)).map((advert) =>
                     <a name={advert.id} key={advert.id}>
-                        <Card sx={{ width: 300, display: 'inline-block', float: 'left', margin: 2}}>
+                        <Card sx={{ width: 320, display: 'inline-block', float: 'left', margin: 2}}>
                             <Box style={{position: 'relative'}}>
                                 <ButtonBase style={{width:"100%"}} onClick={()=>{window.open(advert.url, "_blank")}}>
                                     <CardMedia
@@ -178,7 +274,7 @@ function Home() {
                                     Source: {advert.source}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
-                                    Prise: {advert.price}
+                                    Prise: {advert.price} {advert.currency}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
                                     status: {advert.status}
@@ -198,7 +294,25 @@ function Home() {
                             </CardContent>
 
                             <Box>
-                                <CardActions style={{float: "left"}}>
+                                <CardActions>
+                                    <Button
+                                        style={{float: "left", color: 'green'}}
+                                        size="small"
+                                        onClick={(e) => handleOpenCompleteDialog(e, advert)}
+                                    >
+                                        <CheckCircleOutlineRoundedIcon/>
+                                    </Button>
+                                    {completeDialog}
+
+                                    <Button
+                                        style={{float: "left", color: 'red'}}
+                                        size="small"
+                                        onClick={(e) => openAdvertForm(e, advert)}
+                                    >
+                                        <DeleteOutlineRoundedIcon/>
+                                    </Button>
+
+
                                     <Button
                                         style={{float: "left", color: 'grey'}}
                                         size="small"
@@ -206,47 +320,8 @@ function Home() {
                                     >
                                         Add more...
                                     </Button>
+                                    {modal}
 
-                                    <Modal
-                                        open={open}
-                                        onClose={closeAdvertForm}
-                                        aria-labelledby="modal-modal-title"
-                                        aria-describedby="modal-modal-description"
-                                    >
-                                        <Box sx={style}>
-                                            <Typography id="modal-modal-title" variant="h6" component="h2">
-                                                Select number of products you want to create
-                                            </Typography>
-
-                                            <br/>
-                                            <form onSubmit={handleCloneAdverts}>
-                                                <InputLabel id="demo-simple-select-standard-label">Number</InputLabel>
-                                                <Select
-                                                    labelId="demo-simple-select-standard-label"
-                                                    id="demo-simple-select-standard"
-                                                    value={numberOfAdverts}
-                                                    onChange={onChangeNumberOfAdverts}
-                                                    label="Age"
-                                                    fullWidth
-                                                >
-                                                    {hundred.map(el =>
-                                                        <MenuItem key={el} value={el}>{el}</MenuItem>
-                                                    )}
-                                                </Select>
-                                                <Button
-                                                    type="submit"
-                                                    variant='contained'
-                                                    color='primary'
-                                                    style={{marginTop: 20, float: "right"}}
-                                                >
-                                                    {t("Submit")}
-                                                </Button>
-                                            </form>
-                                        </Box>
-                                    </Modal>
-                                </CardActions>
-
-                                <CardActions style={{float: "right"}}>
                                     <Button style={{float: "right", color: 'grey'}} onClick={()=>{window.open(advert.url, "_blank")}} size="small" >GO to source</Button>
                                 </CardActions>
                             </Box>

@@ -5,26 +5,36 @@ module.exports = {
         await queryInterface.bulkInsert('Currencies', [
             {
                 id: crypto.randomUUID(),
-                currency : 'EUR'
+                currency : 'EUR',
+                createdAt: new Date(),
+                updatedAt: new Date(),
             },
             {
                 id: crypto.randomUUID(),
-                currency : 'USD'
+                currency : 'USD',
+                createdAt: new Date(),
+                updatedAt: new Date(),
             },
             {
                 id: crypto.randomUUID(),
-                currency : 'UAH'
+                currency : 'UAH',
+                createdAt: new Date(),
+                updatedAt: new Date(),
             }
         ]);
 
         await queryInterface.bulkInsert('Sources', [
             {
                 id: crypto.randomUUID(),
-                source : 'OLX'
+                source : 'OLX',
+                createdAt: new Date(),
+                updatedAt: new Date(),
             },
             {
                 id: crypto.randomUUID(),
-                source : 'AutoRia'
+                source : 'AutoRia',
+                createdAt: new Date(),
+                updatedAt: new Date(),
             }
         ]);
     },

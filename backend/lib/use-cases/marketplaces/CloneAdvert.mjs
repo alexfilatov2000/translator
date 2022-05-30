@@ -9,7 +9,7 @@ export default class CloneAdvert extends Base {
             ria_access_token : [ 'string' ],
             advert           : [ 'required' ],
             ria_user_id      : [ 'string' ],
-            cnt              : [ 'required', 'integer' ],
+            cnt              : [ 'required', 'integer' ]
         };
 
         return this.doValidation(data, rules);
@@ -24,20 +24,25 @@ export default class CloneAdvert extends Base {
     }) {
         if (advert.source === 'OLX') {
             const sourceData = {
-                title: advert.title,
-                description: advert.description,
-                category_id: advert.sourceData.category_id,
-                advertiser_type: advert.sourceData.advertiser_type,
-                contact: advert.sourceData.contact,
-                location: advert.sourceData.location,
-                images: advert.sourceData.images,
-                price: advert.sourceData.price,
-                attributes: advert.sourceData.attributes?.map(el => {delete el.values; return el})
-            }
+                title           : advert.title,
+                description     : advert.description,
+                category_id     : advert.sourceData.category_id,
+                advertiser_type : advert.sourceData.advertiser_type,
+                contact         : advert.sourceData.contact,
+                location        : advert.sourceData.location,
+                images          : advert.sourceData.images,
+                price           : advert.sourceData.price,
+                attributes      : advert.sourceData.attributes?.map(el => {
+                    delete el.values;
+
+                    return el;
+                })
+            };
+
             for (let i = 1; i <= cnt; i++) {
                 sourceData.description = `${advert.description} ${i}`;
 
-                console.log(sourceData)
+                console.log(sourceData);
                 try {
                     const res = await fetch('https://www.olx.ua/api/partner/adverts', {
                         method  : 'POST',
@@ -46,10 +51,11 @@ export default class CloneAdvert extends Base {
                             'Authorization' : `Bearer ${olx_access_token}`,
                             'Version'       : '2.0'
                         },
-                        body: JSON.stringify(sourceData)
+                        body : JSON.stringify(sourceData)
                     });
 
-                    const x = await res.json()
+                    const x = await res.json();
+
                     console.log(x);
                     console.log(x?.error?.validation);
                 } catch (e) {
@@ -58,13 +64,12 @@ export default class CloneAdvert extends Base {
                     throw e;
                 }
             }
-
         }
 
         return {
-            data: {
-                status: 1
+            data : {
+                status : 1
             }
-        }
+        };
     }
 }

@@ -8,7 +8,10 @@ module.exports = {
                 defaultValue : Sequelize.UUIDV4,
                 primaryKey   : true
             },
-            currency : { type: Sequelize.ENUM('EUR', 'USD', 'UAH'), allowNull: false }
+            currency : { type: Sequelize.ENUM('EUR', 'USD', 'UAH'), allowNull: false },
+
+            createdAt : { type: Sequelize.DATE,    allowNull: false },
+            updatedAt : { type: Sequelize.DATE,    allowNull: false }
         }, {
             charset : 'utf8mb4'
         });
@@ -19,9 +22,12 @@ module.exports = {
                 defaultValue : Sequelize.UUIDV4,
                 primaryKey   : true
             },
-            source : { type: Sequelize.ENUM('OLX', 'AutoRia'), allowNull: false }
+            source : { type: Sequelize.ENUM('OLX', 'AutoRia'), allowNull: false },
+
+            createdAt : { type: Sequelize.DATE,    allowNull: false },
+            updatedAt : { type: Sequelize.DATE,    allowNull: false }
         }, {
-            charset : 'utf8mb4'
+            charset : 'utf8mb4',
         });
 
         await queryInterface.createTable('Statistics', {
@@ -32,7 +38,10 @@ module.exports = {
             },
             advert_views    : { type: Sequelize.INTEGER,    allowNull: false },
             phone_views     : { type: Sequelize.INTEGER,    allowNull: false },
-            users_observing : { type: Sequelize.INTEGER,    allowNull: false }
+            users_observing : { type: Sequelize.INTEGER,    allowNull: false },
+
+            createdAt : { type: Sequelize.DATE,    allowNull: false },
+            updatedAt : { type: Sequelize.DATE,    allowNull: false }
         }, {
             charset : 'utf8mb4'
         });
