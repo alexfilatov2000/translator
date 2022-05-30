@@ -34,20 +34,48 @@ function daysInMonth(month) {
     return new Date(year, month, 0).getDate();
 }
 
-function getDaysInThisYear() {
-    const jan = daysInMonth(1);
-    const feb = daysInMonth(2);
-    const maa = daysInMonth(3);
-    const apr = daysInMonth(4);
-    const mei = daysInMonth(5);
-    const jul = daysInMonth(6);
-    const jun = daysInMonth(7);
-    const aug = daysInMonth(8);
-    const sep = daysInMonth(9);
-    const okt = daysInMonth(10);
-    const nov = daysInMonth(11);
-    const dec = daysInMonth(12);
-    return  jan + feb + maa + apr + mei + jul + jun + aug + sep + okt + nov + dec;
+function getRandom(min, max) {
+    return Math.round(Math.random() * (max - min) + min);
+}
+
+function changeDays(d, p, marketplaces = null) {
+    let tmp1 = [];
+    let tmp2 = [];
+    let tmp3 = [];
+    for (let i = 0; i <= d; i++){
+        if (p){
+            let dateOfProduct = new Date(p.createdAt)
+            console.log(dateOfProduct.getFullYear())
+            let date = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
+            if (date >= dateOfProduct){
+                let to = d-i;
+                tmp1.push(getRandom(to, to*2));
+                tmp2.push(getRandom(to/5, to/2));
+                tmp3.push(getRandom(to/5, to/2));
+            }
+            else {
+                tmp1.unshift(0);
+                tmp2.unshift(0);
+                tmp3.unshift(0);
+            }
+        }
+        else if (marketplaces?.adverts){
+            let minDate = new Date();
+            console.log({marketplaces})
+            marketplaces?.adverts?.map(advert => {
+
+                let newDate = new Date(advert.createdAt)
+                if (newDate < minDate){
+                    minDate = newDate;
+                }
+            })
+            let strMinDate = {
+                createdAt: `${minDate}`
+            }
+            return changeDays(d, strMinDate);
+        }
+    }
+    return {tmp1, tmp2, tmp3}
 }
 
 function Statistics() {
@@ -60,67 +88,34 @@ function Statistics() {
 
     const [product, setProduct] = React.useState(false);
 
-    function getRandom(min, max) {
-        return Math.round(Math.random() * (max - min) + min);
-    }
-
     const [days, setDays] = React.useState(6);
 
-    const changeDays = (d, p) => {
-        let tmp1 = [];
-        let tmp2 = [];
-        let tmp3 = [];
-        for (let i = 0; i <= d; i++){
-            if (p){
-                let dateOfProduct = new Date(p.createdAt)
-                let date = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
-                console.log({dateOfProduct, date})
-                if (date >= dateOfProduct){
-                    let to = d-i;
-                    tmp1.push(getRandom(to, to*2));
-                    tmp2.push(getRandom(to/5, to/2));
-                    tmp3.push(getRandom(to/5, to/2));
-                }
-                else {
-                    tmp1.unshift(0);
-                    tmp2.unshift(0);
-                    tmp3.unshift(0);
-                }
-            }
-            else {
-                let to = d-i;
-                tmp1.push(getRandom(to, to*2))
-                tmp2.push(getRandom(to/5, to/2))
-                tmp3.push(getRandom(to/5, to/2))
-            }
-        }
-        return {tmp1, tmp2, tmp3}
+    let daysData;
+    if (marketplaces){
+        daysData = changeDays(days, product, marketplaces);
     }
-
-    const daysData = changeDays(days, product);
-    const [dataViews, setDataViews] = React.useState(daysData.tmp1);
-    const [dataObserving, setDataObserving] = React.useState(daysData.tmp2);
-    const [dataViewsPhone, setDataViewsPhone] = React.useState(daysData.tmp3);
+    let dataViews = daysData.tmp1;
+    let dataObserving = daysData.tmp2;
+    let dataViewsPhone = daysData.tmp3;
 
     const handleChange = (event) => {
         setProduct(event.target.value);
-        const {tmp1, tmp2, tmp3} = changeDays(days, event.target.value);
-        setDataViews(tmp1)
-        setDataObserving(tmp2)
-        setDataViewsPhone(tmp3)
+        const {tmp1, tmp2, tmp3} = changeDays(days, event.target.value, marketplaces);
+        dataViews = tmp1;
+        dataObserving = tmp2;
+        dataViewsPhone = tmp3;
     };
 
     const handleChangeDays = (event) => {
         setDays(event.target.value);
         const d = event.target.value
-        const {tmp1, tmp2, tmp3} = changeDays(d, product)
-        console.log({tmp1, tmp2, tmp3})
-        setDataViews(tmp1)
-        setDataObserving(tmp2)
-        setDataViewsPhone(tmp3)
+        const {tmp1, tmp2, tmp3} = changeDays(d, product, marketplaces)
+        dataViews = tmp1;
+        dataObserving = tmp2;
+        dataViewsPhone = tmp3;
     };
 
-    console.log({product});
+    console.log({product, marketplaces});
 
     useEffect(() => {
         if (olx_access_token && ria_access_token) {
