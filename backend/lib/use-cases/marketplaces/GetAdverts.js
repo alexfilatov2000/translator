@@ -41,8 +41,6 @@ export default class GetAdverts extends Base {
 
                 const olxAdverts = await response.json();
 
-                console.log(olxAdverts);
-
                 for (const advert of olxAdverts.data) {
                     const res = await fetch(`https://www.olx.ua/api/partner/adverts/${advert.id}/statistics`, {
                         method  : 'GET',
@@ -112,8 +110,6 @@ export default class GetAdverts extends Base {
                 throw e;
             }
         }
-
-        console.log(adverts);
 
         return {
             data : {

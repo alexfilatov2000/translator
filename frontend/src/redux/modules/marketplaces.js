@@ -71,6 +71,24 @@ export const getAdverts = createAsyncThunk(
     }
 )
 
+export const cloneAdverts = createAsyncThunk(
+    '/adverts/clone',
+    async (param, thunkAPI) => {
+        try {
+            const res = await axios.post(`/adverts/clone`, param.data);
+
+            const data = res.data?.data;
+
+            if (!data) {
+                return {error: 'CLONE_FAILED'};
+            }
+
+            return { success: "updated", data };
+        } catch (err) {
+            return {error: err.response.data.error};
+        }
+    }
+)
 
 
 const initialState = {

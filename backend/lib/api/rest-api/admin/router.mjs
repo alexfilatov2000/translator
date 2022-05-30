@@ -26,6 +26,7 @@ export default function init() {
     router.post('/olx/session', controllers.marketplaces.createSession);
     router.post('/autoria/session', controllers.marketplaces.autoriaSession);
     router.post('/adverts',  controllers.marketplaces.getAdverts);
+    router.post('/adverts/clone',  controllers.marketplaces.cloneAdvert);
 
     // router.use(errorHandler);
 

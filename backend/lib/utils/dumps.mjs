@@ -16,7 +16,8 @@ export function dumpAdvert({
         sourceURL   : null,
         createdAt   : null,
         expireDate  : null,
-        statistics  : { advert_views: 0, phone_views: 0, users_observing: 0 }
+        statistics  : { advert_views: 0, phone_views: 0, users_observing: 0 },
+        sourceData: null
     };
 
     if (olxEnabled) {
@@ -32,6 +33,7 @@ export function dumpAdvert({
         defaultAdvert.createdAt   = advert.created_at;
         defaultAdvert.expireDate  = advert.valid_to;
         defaultAdvert.statistics  = advert.statistics.data;
+        defaultAdvert.sourceData  = advert;
     }
 
     if (autoriaEnabled) {
@@ -50,6 +52,8 @@ export function dumpAdvert({
         defaultAdvert.statistics.advert_views = advert.statistics.views;
         defaultAdvert.statistics.phone_views = advert.statistics.clicks;
         defaultAdvert.statistics.users_observing = advert.statistics.notepadCount;
+
+        defaultAdvert.sourceData  = advert;
     }
 
     return defaultAdvert;
