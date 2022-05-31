@@ -291,37 +291,44 @@ function Statistics() {
 
     return (
         <Box sx={{marginLeft: 30 }}>
-            <Typography variant="h5" component="h1" sx={{m: 2}}>
+            <Typography variant="h4" component="h1" sx={{m: 2}}>
                 {t("Statistics")}
             </Typography>
             <Box>
-                <Box style={{display: 'inline-block', width: '25%'}}>
-                    <Typography variant="body1" sx={{m: 2}}>
-                        {t("Number Of Ads")}
-                    </Typography>
-                    <Doughnut data={sourceData} />
-                </Box>
+                <div style={{display: "flex"}}>
+                    <Box style={{display: 'inline-block', width: '25%',  flex: 1}}>
+                        <Typography variant="body1" sx={{m: 2}}>
+                            {t("Number Of Ads")}
+                        </Typography>
+                        <Doughnut data={sourceData} />
+                    </Box>
 
-                <Box style={{display: 'inline-block', width: '25%'}}>
-                    <Typography variant="body1" sx={{m: 2}}>
-                        {t("Number Of Views")}
-                    </Typography>
-                    <Pie data={viewsData} />
-                </Box>
+                    <Box style={{display: 'inline-block', flex: 3}}>
+                        <Typography variant="h6" component="h1" sx={{m: 2}}>
+                            {t("Active Statistics")}
+                        </Typography>
+                        <Box style={{display: 'inline-block', width: '25%'}}>
+                            <Typography variant="body1" sx={{m: 2}}>
+                                {t("Number Of Views")}
+                            </Typography>
+                            <Pie data={viewsData} />
+                        </Box>
 
-                <Box style={{display: 'inline-block', width: '25%'}}>
-                    <Typography variant="body1" sx={{m: 2}}>
-                        {t("Number Of Observing")}
-                    </Typography>
-                    <Pie data={observingData} />
-                </Box>
+                        <Box style={{display: 'inline-block', width: '25%'}}>
+                            <Typography variant="body1" sx={{m: 2}}>
+                                {t("Number Of Observing")}
+                            </Typography>
+                            <Pie data={observingData} />
+                        </Box>
 
-                <Box style={{display: 'inline-block', width: '25%'}}>
-                    <Typography variant="body1" sx={{m: 2}}>
-                        {t("Number Of Phone Views")}
-                    </Typography>
-                    <Pie data={phoneViewsData} />
-                </Box>
+                        <Box style={{display: 'inline-block', width: '25%'}}>
+                            <Typography variant="body1" sx={{m: 2}}>
+                                {t("Number Of Phone Views")}
+                            </Typography>
+                            <Pie data={phoneViewsData} />
+                        </Box>
+                    </Box>
+                </div>
 
                 <Box style={{textAlign: 'center'}}>
                     <Box display={'flex'} style={{marginTop: 40}}>

@@ -7,6 +7,9 @@ import { createRoot } from 'react-dom/client';
 // import { initReactI18next } from 'react-i18next'
 // import HttpApi from 'i18next-http-backend'
 // import LanguageDetector from 'i18next-browser-languagedetector'
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 import {store} from "./redux/store";
 // import options from "./config/trOptions";
@@ -33,6 +36,7 @@ function main(){
             <Suspense fallback={loadingMarkup}>
                 <Provider store={store}>
                     <App/>
+                    <ToastContainer theme="colored" />
                 </Provider>
             </Suspense>
         // </StrictMode>

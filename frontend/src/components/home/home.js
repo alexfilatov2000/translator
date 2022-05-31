@@ -109,21 +109,7 @@ function Home() {
     const handleSearch = (event, newValues) => {
         navigate(`#${newValues.id}`);
     };
-
-    const handleCloneAdverts = async e => {
-        e.preventDefault();
-        dispatch(cloneAdverts({
-            data: {
-                advert: advertForClone,
-                olx_access_token: marketplaces?.olx_access_token,
-                cnt: numberOfAdverts
-            }
-        }));
-        closeAdvertForm();
-    };
-
     const onChangeNumberOfAdverts = (e) => setNumberOfAdverts(e.target.value);
-
 
     const hundred = [...Array(100).keys()].map(foo => foo + 1);
 
@@ -132,52 +118,13 @@ function Home() {
         dispatch(markAsSold({
             data: {
                 advert: advertForSold,
-                olx_access_token: marketplaces?.olx_access_token
-            }
+                cnt: numberOfAdverts
+            },
+            onClose: handleCloseCompleteDialog
         }));
-
-        // handleCloseCompleteDialog();
     }
 
-    const modal = (
-        <Modal
-            open={open}
-            onClose={closeAdvertForm}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                    Select number of products you want to create
-                </Typography>
-
-                <br/>
-                <form onSubmit={handleCloneAdverts}>
-                    <InputLabel id="demo-simple-select-standard-label">Number</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
-                        value={numberOfAdverts}
-                        onChange={onChangeNumberOfAdverts}
-                        label="Age"
-                        fullWidth
-                    >
-                        {hundred.map(el =>
-                            <MenuItem key={el} value={el}>{el}</MenuItem>
-                        )}
-                    </Select>
-                    <Button
-                        type="submit"
-                        variant='contained'
-                        color='primary'
-                        style={{marginTop: 20, float: "right"}}
-                    >
-                        {t("Submit")}
-                    </Button>
-                </form>
-            </Box>
-        </Modal>
-    )
+    console.log({marketplaces})
 
     const handleOpenCompleteDialog = (e, advert) => {
         setAdvertForSold(advert)
@@ -201,8 +148,26 @@ function Home() {
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
                     This action affects the general statistics which cannot be changed.
+                    <br/>
+                    Please select how many products did you sell.
                 </DialogContentText>
             </DialogContent>
+
+            <Box textAlign={"center"}>
+                <InputLabel id="demo-simple-select-standard-label">Number Of Products</InputLabel>
+                <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    value={numberOfAdverts}
+                    onChange={onChangeNumberOfAdverts}
+                    label="Age"
+                    sx={{width: '50%'}}
+                >
+                    {hundred.map(el =>
+                        <MenuItem key={el} value={el}>{el}</MenuItem>
+                    )}
+                </Select>
+            </Box>
             <DialogActions>
                 <Button onClick={handleCloseCompleteDialog}>Cancel</Button>
                 <Button onClick={handleMarkAsSold} autoFocus>
@@ -311,16 +276,6 @@ function Home() {
                                     >
                                         <DeleteOutlineRoundedIcon/>
                                     </Button>
-
-
-                                    <Button
-                                        style={{float: "left", color: 'grey'}}
-                                        size="small"
-                                        onClick={(e) => openAdvertForm(e, advert)}
-                                    >
-                                        Add more...
-                                    </Button>
-                                    {modal}
 
                                     <Button style={{float: "right", color: 'grey'}} onClick={()=>{window.open(advert.url, "_blank")}} size="small" >GO to source</Button>
                                 </CardActions>

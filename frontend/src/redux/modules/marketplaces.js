@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from "../utils/axios";
-import {parseToken} from "../../utils/parseToken";
-import {sendGetAllUsers} from "./users";
+import { toast } from 'react-toastify';
 
 
 export const createSession = createAsyncThunk(
@@ -102,7 +101,8 @@ export const markAsSold = createAsyncThunk(
                 return {error: 'MARK_AS_SOLD_FAILED'};
             }
 
-            return { success: "updated", data };
+            param.onClose();
+            toast.success("Information was successfully saved");
         } catch (err) {
             return {error: err.response.data.error};
         }
@@ -118,6 +118,7 @@ const initialState = {
     olx_refresh_token: localStorage.getItem('olx_refresh_token'),
     ria_access_token: localStorage.getItem('ria_access_token'),
     ria_user_id: localStorage.getItem('ria_user_id'),
+    success: null
 };
 
 const slice = createSlice({

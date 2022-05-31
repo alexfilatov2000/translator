@@ -5,6 +5,7 @@ import Product from './Product.mjs';
 import Source from './Source.mjs';
 import Currency from './Currency.mjs';
 import Statistic from './Statistic.mjs';
+import Detail from "./Detail.mjs";
 
 const namespace = cls.createNamespace('sequelize');
 
@@ -25,7 +26,8 @@ export function initModels(dbConfig) {
         Product,
         Source,
         Currency,
-        Statistic
+        Statistic,
+        Detail
     };
 
     Object.values(models).forEach(model => model.init(sequelize));
