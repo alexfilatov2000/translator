@@ -34,7 +34,8 @@ export function makeUseCaseRunner(
 async function validateJwt(req, res) {
     try {
         const token = getToken(req);
-        const userData = await jwt.verify(token, config.tokenEmailKey);
+
+        const userData = await jwt.verify(token, config.tokenLoginKey);
 
         const user = await User.findByPk(userData.id);
 

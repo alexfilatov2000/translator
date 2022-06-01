@@ -3,21 +3,23 @@ import {Box, Button, Typography, Modal, TextField, FormControl, InputLabel, Sele
 import {useTranslation} from 'react-i18next'
 import {useSearchParams, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {createRiaSession, createSession, getAdverts} from "../../redux/modules/marketplaces";
+import {createRiaSession, createSession, getAdverts, getSoldStatistics} from "../../redux/modules/marketplaces";
+import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded';
 import moment from 'moment';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, RadialLinearScale, CategoryScale,
     LinearScale,
     PointElement,
     LineElement,
     Title,
+    BarElement
     } from 'chart.js';
 
-import { Doughnut, Line, Pie } from 'react-chartjs-2';
+import { Doughnut, Line, Pie, Bar } from 'react-chartjs-2';
+import './styles.css'
 
-ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title);
+ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title, BarElement);
 
 const Tr = useTranslation;
-
 const getDaysArray = function(start, end) {
     const arr = [];
     for(const dt = new Date(start); dt<=new Date(end); dt.setDate(dt.getDate()+1)){
@@ -25,6 +27,7 @@ const getDaysArray = function(start, end) {
     }
     return arr;
 };
+
 
 function daysInMonth(month) {
     if (month === -1){
@@ -45,7 +48,6 @@ function changeDays(d, p, marketplaces = null) {
     for (let i = 0; i <= d; i++){
         if (p){
             let dateOfProduct = new Date(p.createdAt)
-            console.log(dateOfProduct.getFullYear())
             let date = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
             if (date >= dateOfProduct){
                 let to = d-i;
@@ -61,7 +63,6 @@ function changeDays(d, p, marketplaces = null) {
         }
         else if (marketplaces?.adverts){
             let minDate = new Date();
-            console.log({marketplaces})
             marketplaces?.adverts?.map(advert => {
 
                 let newDate = new Date(advert.createdAt)
@@ -82,6 +83,7 @@ function Statistics() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const marketplaces = useSelector(state => state.marketplaces);
+    const users = useSelector(state => state.users);
 
     const olx_access_token = !!marketplaces?.olx_access_token
     const ria_access_token = !!marketplaces?.ria_access_token
@@ -115,9 +117,12 @@ function Statistics() {
         dataViewsPhone = tmp3;
     };
 
-    console.log({product, marketplaces});
+    console.log(marketplaces);
 
     useEffect(() => {
+        dispatch(getSoldStatistics({
+            token: users.token,
+        }), []);
         if (olx_access_token && ria_access_token) {
             dispatch(getAdverts({
                 data: {
@@ -207,6 +212,32 @@ function Statistics() {
         ],
     };
 
+
+    const profitOptions = {
+        aspectRatio: 3,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Top Profitable Products',
+            },
+        },
+    };
+
+    const profitData = {
+        labels: marketplaces?.soldStatistics?.products?.map(el => el?.title),
+        datasets: [
+            {
+                label: 'Profit',
+                data: marketplaces?.soldStatistics?.products?.map(el => el?.total),
+                backgroundColor: 'rgba(84, 176, 77, 0.5)',
+            }
+        ],
+    };
+
+
     const viewsData = {
         labels: marketplaces?.adverts?.map(el => `${el?.title} (${el.source})`),
         datasets: [
@@ -294,6 +325,51 @@ function Statistics() {
             <Typography variant="h4" component="h1" sx={{m: 2}}>
                 {t("Statistics")}
             </Typography>
+            <Box sx={{display: 'flex'}}>
+                <Box sx={{flex: 1, marginLeft: 10}}>
+                    <Box sx={{height: 140}} className='hvr-box-shadow-outset'>
+                        <div style={{width: '40%', height: 30, textAlign: "center", display: 'inline-block', marginTop: 15, backgroundColor: '#54B04D', borderRadius: 5}}>
+                            <p style={{color: 'white', lineHeight: 0}}>
+                                Profit
+                            </p>
+                        </div>
+
+                        <p style={{color: '#54B04D'}}>
+                            {marketplaces?.soldStatistics?.statistics?.totalPrice} $
+                        </p>
+
+                        <div style={{}}>
+                            <ArrowDropUpRoundedIcon sx={{color: '#54B04D', verticalAlign: 'middle'}}/>
+                            <span style={{verticalAlign: 'middle', fontSize: 12}}>+ {marketplaces?.soldStatistics?.forPeriod?.totalPrice} $ in this month</span>
+                        </div>
+
+                    </Box>
+
+                    <Box sx={{height: 140}} className='hvr-box-shadow-outset'>
+                        <div style={{width: '40%', height: 30, textAlign: "center", display: 'inline-block', marginTop: 15, backgroundColor: 'orange', borderRadius: 5}}>
+                            <p style={{color: 'white', lineHeight: 0}}>
+                                Sold
+                            </p>
+                        </div>
+
+                        <p style={{color: 'orange'}}>
+                            {marketplaces?.soldStatistics?.statistics?.totalCount} items
+                        </p>
+
+                        <div style={{}}>
+                            <ArrowDropUpRoundedIcon sx={{color: 'orange', verticalAlign: 'middle'}}/>
+                            <span style={{verticalAlign: 'middle', fontSize: 12}}>+ {marketplaces?.soldStatistics?.forPeriod?.totalCount} items in this month</span>
+                        </div>
+                    </Box>
+                </Box>
+
+                <Box sx={{flex: 3, marginLeft: 10, marginRight: 10}}>
+                    <Bar options={profitOptions} data={profitData} style={{}} />
+                </Box>
+
+            </Box>
+
+
             <Box>
                 <div style={{display: "flex"}}>
                     <Box style={{display: 'inline-block', width: '25%',  flex: 1}}>

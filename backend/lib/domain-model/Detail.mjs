@@ -7,9 +7,9 @@ class Detail extends Base {
 
     static generateSchema() {
         this.modelSchema = {
-            id              : { type: DT.UUID, defaultValue: DT.UUIDV4, primaryKey: true },
-            count    : DT.INTEGER,
-            productId       : { type: DT.UUID, allowNull: false },
+            id        : { type: DT.UUID, defaultValue: DT.UUIDV4, primaryKey: true },
+            count     : DT.INTEGER,
+            productId : { type: DT.UUID, allowNull: false },
 
             createdAt : { type: DT.DATE, allowNull: false },
             updatedAt : { type: DT.DATE, allowNull: false }

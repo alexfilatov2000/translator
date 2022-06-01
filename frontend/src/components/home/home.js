@@ -51,7 +51,7 @@ const style = {
 
 
 function Home() {
-    const users = rr.useSelector(state => state.users);
+    const users = useSelector(state => state.users);
     const marketplaces = useSelector(state => state.marketplaces);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -120,6 +120,7 @@ function Home() {
                 advert: advertForSold,
                 cnt: numberOfAdverts
             },
+            token: users.token,
             onClose: handleCloseCompleteDialog
         }));
     }

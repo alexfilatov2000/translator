@@ -61,3 +61,30 @@ export function dumpAdvert({
 
     return defaultAdvert;
 }
+
+export function dumpSoldStatistics(product) {
+    const details = product?.Details;
+    return {
+        id: product.dataValues.id,
+        title: product.dataValues.title,
+        description: product.dataValues.description,
+        image: product.dataValues.image,
+        price: product.dataValues.price,
+        status: product.dataValues.status,
+        count: product.dataValues.count,
+        currency: product.Currency.currency,
+        source: product.Source.source,
+        statistics: {
+            advert_views: product.Statistic.advert_views,
+            phone_views: product.Statistic.phone_views,
+            users_observing: product.Statistic.users_observing,
+        },
+        details: details && details.map(el => ({
+            ...el,
+            count: el.dataValues.count,
+            createdAt: el.dataValues.createdAt,
+            total: el.dataValues.count * product.dataValues.price
+        })),
+        total: product.total
+    }
+}

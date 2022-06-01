@@ -5,7 +5,7 @@ import Product from './Product.mjs';
 import Source from './Source.mjs';
 import Currency from './Currency.mjs';
 import Statistic from './Statistic.mjs';
-import Detail from "./Detail.mjs";
+import Detail from './Detail.mjs';
 
 const namespace = cls.createNamespace('sequelize');
 

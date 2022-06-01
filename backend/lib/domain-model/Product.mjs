@@ -3,7 +3,8 @@ import Base                from './Base.mjs';
 import Statistic from './Statistic.mjs';
 import Source from './Source.mjs';
 import Currency from './Currency.mjs';
-import Detail from "./Detail.mjs";
+import Detail from './Detail.mjs';
+import User from './User.mjs';
 
 class Product extends Base {
     static tableName = 'Products';
@@ -17,6 +18,7 @@ class Product extends Base {
             price       : DT.INTEGER,
             currencyId  : { type: DT.UUID, allowNull: false },
             sourceId    : { type: DT.UUID, allowNull: false },
+            userId      : { type: DT.UUID, allowNull: false },
             status      : DT.STRING,
             count       : DT.INTEGER,
 
@@ -32,6 +34,7 @@ class Product extends Base {
         this.hasMany(Detail);
         this.belongsTo(Source, { foreignKey: 'sourceId' });
         this.belongsTo(Currency, { foreignKey: 'currencyId' });
+        this.belongsTo(User, { foreignKey: 'userId' });
     }
 }
 

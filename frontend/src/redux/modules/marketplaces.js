@@ -93,7 +93,12 @@ export const markAsSold = createAsyncThunk(
     '/adverts/mark_as_sold',
     async (param, thunkAPI) => {
         try {
-            const res = await axios.post(`/adverts/mark_as_sold`, param.data);
+            console.log(1, param.token)
+            const res = await axios.post(`/adverts/mark_as_sold`, param.data, {
+                headers: {
+                    authorization: `Bearer ${param.token}`
+                }
+            });
 
             const data = res.data?.data;
 
@@ -109,11 +114,35 @@ export const markAsSold = createAsyncThunk(
     }
 )
 
+export const getSoldStatistics = createAsyncThunk(
+    '/adverts/statistics',
+    async (param, thunkAPI) => {
+        try {
+            const res = await axios.get(`/adverts/statistics`, {
+                headers: {
+                    authorization: `Bearer ${param.token}`
+                }
+            });
+
+            const data = res.data?.data;
+
+            if (!data) {
+                return {error: 'GET_SOLD_STATISTICS_FAILED'};
+            }
+
+            return { data };
+        } catch (err) {
+            return {error: err.response.data.error};
+        }
+    }
+)
+
 
 const initialState = {
     data: null,
     error: null,
     adverts: [],
+    soldStatistics: null,
     olx_access_token: localStorage.getItem('olx_access_token'),
     olx_refresh_token: localStorage.getItem('olx_refresh_token'),
     ria_access_token: localStorage.getItem('ria_access_token'),
@@ -162,6 +191,9 @@ const slice = createSlice({
             } else {
                 state.error = action.payload?.error;
             }
+        })
+        builder.addCase(getSoldStatistics.fulfilled, (state, action) => {
+            state.soldStatistics = action.payload.data
         })
     },
 })

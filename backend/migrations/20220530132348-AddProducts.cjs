@@ -57,6 +57,7 @@ module.exports = {
 
             currencyId  : { type: Sequelize.UUID, references: { model: 'Currencies', key: 'id' }, allowNull: false },
             sourceId    : { type: Sequelize.UUID, references: { model: 'Sources', key: 'id' }, allowNull: false },
+            userId      : { type: Sequelize.UUID, references: { model: 'Users', key: 'id' }, allowNull: false },
 
             status : {
                 type      : Sequelize.STRING,

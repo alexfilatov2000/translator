@@ -28,6 +28,7 @@ export default function init() {
     router.post('/adverts',  controllers.marketplaces.getAdverts);
     router.post('/adverts/clone',  controllers.marketplaces.cloneAdvert);
     router.post('/adverts/mark_as_sold',  controllers.marketplaces.markAsSold);
+    router.get('/adverts/statistics',  controllers.marketplaces.getSoldStatistics);
 
     // router.use(errorHandler);
 
