@@ -87,23 +87,38 @@ function TradingPlatforms() {
             </Typography>
 
             <Box>
-                <Button
-                    variant="contained"
-                    href={link_to_get_olx_code}
-                    disabled={!!marketplaces?.olx_access_token}
-                    sx={{m: 2}}
-                >
-                    Authorize via olx
-                </Button>
+                <div style={{display: 'inline-block', marginRight: 10}}>
+                    <div style={{height: 250}}>
+                        <img width="250px"  style={{borderRadius: 25}} src="./olxLogo.png" alt=""/>
+                    </div>
 
-                <Button
-                    variant="contained"
-                    onClick={openRia}
-                    disabled={!!marketplaces?.ria_access_token}
-                    sx={{m: 2}}
-                >
-                    Authorize via autoria
-                </Button>
+                    <Button
+                        variant="contained"
+                        href={link_to_get_olx_code}
+                        disabled={!!marketplaces?.olx_access_token}
+                        sx={{m: 2}}
+                    >
+                        Authorize via olx
+                    </Button>
+                </div>
+
+
+                <div style={{display: 'inline-block', marginLeft: 10}}>
+                    <div style={{height: 250}}>
+                        <img width="250px" src="./autoriaLogo.png" alt=""/>
+                    </div>
+
+
+                    <Button
+                        variant="contained"
+                        onClick={openRia}
+                        disabled={!!marketplaces?.ria_access_token}
+                        sx={{m: 2}}
+                    >
+                        Authorize via autoria
+                    </Button>
+                </div>
+
 
                 <Modal
                     open={open}

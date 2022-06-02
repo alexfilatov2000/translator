@@ -223,7 +223,7 @@ function Statistics() {
                 display: true,
                 text: 'Top Profitable Products',
             },
-        },
+        }
     };
 
     const profitData = {
