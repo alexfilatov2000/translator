@@ -13,6 +13,7 @@ function Register() {
     const dispatch = rr.useDispatch();
     const users = rr.useSelector(state => state.users);
 
+    const [email, setEmail] = r.useState('');
     const [password, setPassword] = r.useState('');
     const [email, setEmail] = r.useState('');
     const navigate = rd.useNavigate();
