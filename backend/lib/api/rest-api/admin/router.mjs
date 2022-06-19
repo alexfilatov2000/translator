@@ -20,7 +20,7 @@ export default function init() {
     // authentication
     router.post('/login',  controllers.authentication.login);
     router.post('/register',  controllers.authentication.register);
-    router.post('/email-verify/:token',  controllers.authentication.emailVerify);
+    router.get('/verify-email/:token',  controllers.authentication.emailVerify);
 
     // marketplaces
     router.post('/olx/session', controllers.marketplaces.createSession);

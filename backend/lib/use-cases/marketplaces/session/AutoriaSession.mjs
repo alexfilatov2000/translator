@@ -12,7 +12,6 @@ export default class AutoriaSession extends Base {
 
     async execute({ ria_access_token, user_id }) {
         let response;
-        console.log(111);
         try {
             response = await fetch(`https://developers.ria.com/auto/used/autos/ids?api_key=${ria_access_token}&user_id=${user_id}`, {
                 method  : 'GET',
@@ -26,8 +25,6 @@ export default class AutoriaSession extends Base {
 
         let result = await response.json();
 
-        console.log(result);
-
         if (result?.active) {
             result = {
                 ria_access_token,
@@ -36,8 +33,6 @@ export default class AutoriaSession extends Base {
         } else {
             result = { error: result?.error?.code || 'AUTORIA_SESSION_FAILED' };
         }
-
-
 
         return {
             data : { ...result }

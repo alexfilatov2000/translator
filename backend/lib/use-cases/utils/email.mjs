@@ -11,11 +11,15 @@ const transporter = nodemailer.createTransport({
 
 export default async function sendToVerify(email, url, subject, txt) {
     const mailOptions = {
-        from : config.app.email,
+        from : config.email,
         to   : email,
         subject,
-        text : `${txt}${url}`
+        text : `${txt} ${url}`
     };
 
+    console.log({
+        user : config.email,
+        pass : config.emailPassword
+    })
     await transporter.sendMail(mailOptions);
 }

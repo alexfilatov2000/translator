@@ -15,7 +15,6 @@ export default class CreateSession extends Base {
     }
 
     async execute(data) {
-        console.log(data);
         let response;
 
         try {
@@ -32,16 +31,6 @@ export default class CreateSession extends Base {
 
 
         const result = await response.json();
-
-        // const result = {
-        //     access_token: '933fa41089b27a3e4719b8a610d910119a10fa57',
-        //     expires_in: 70055,
-        //     token_type: 'bearer',
-        //     scope: 'v2 read write',
-        //     refresh_token: '698f41b9f7ba5746c3797268869dc10eb7ecf03f'
-        // }
-
-        console.log(result);
 
         return {
             data : { ...result }

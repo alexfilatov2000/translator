@@ -77,7 +77,7 @@ export default function Settings() {
             <div style={styles.personalInformation}>
                 <Box display={'flex'}>
                     <div>
-                        <h2 style={styles.text}>Language</h2>
+                        <h2 style={styles.text}>{t("Language")}</h2>
                         <div style={{margin: 10}}>
                             <Lg/>
                         </div>
@@ -88,7 +88,7 @@ export default function Settings() {
                     />
                 </Box>
                 
-                <h2 style={styles.text}>Personal information</h2>
+                <h2 style={styles.text}>{t("Personal information")}</h2>
                 <Button style={styles.base} variant='outlined'>
                     <div style={styles.type}>email</div>
                     <div style={styles.value}>{users.user?.email}</div>
@@ -100,7 +100,7 @@ export default function Settings() {
                     </div>
                 </Button>
                 <Button style={{marginRight:20, marginBottom:10}} onClick={handleLogOut} variant='outlined' color='secondary'>
-                    LOG OUT
+                    {t("LOG OUT")}
                 </Button>
                 {/*<Button onClick={handleOpenDialog} style={{marginBottom:10}} variant='contained' color='secondary'>*/}
                 {/*    <DeleteIcon fontSize='small'/>*/}

@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import Base from '../../use-cases/Base.mjs';
 import { dumpAdvert } from '../../utils/dumps.mjs';
+import Product from '../../domain-model/Product.mjs';
 
 export default class GetAdverts extends Base {
     async validate(data = {}) {
@@ -56,6 +57,16 @@ export default class GetAdverts extends Base {
 
                 const dumpOlxAdverts = olxAdverts.data.map(advert => dumpAdvert({ advert, olxEnabled: true }));
 
+                for (const advert of dumpOlxAdverts) {
+                    const product = await Product.findOne({
+                        where : {
+                            title : advert.title
+                        }
+                    });
+
+                    advert.soldCount = product?.count || 0;
+                }
+
                 adverts.push(...dumpOlxAdverts);
                 sourceCount.OLX = dumpOlxAdverts.length;
             } catch (e) {
@@ -103,6 +114,16 @@ export default class GetAdverts extends Base {
                 }
 
                 const dumpRiaAdverts = advertsInfo.map(advert => dumpAdvert({ advert, autoriaEnabled: true }));
+
+                for (const advert of dumpRiaAdverts) {
+                    const product = await Product.findOne({
+                        where : {
+                            title : advert.title
+                        }
+                    });
+
+                    advert.soldCount = product?.count || 0;
+                }
 
                 adverts.push(...dumpRiaAdverts);
                 sourceCount.AutoRIA = dumpRiaAdverts.length;

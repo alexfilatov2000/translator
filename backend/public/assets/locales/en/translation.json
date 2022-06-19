@@ -1,0 +1,56 @@
+{
+  "hello": "Hello",
+
+  "sing in": "Sing in",
+  "register": "Register",
+  "home": "Home",
+
+  "username": "username",
+  "full name": "full name",
+  "email": "email",
+  "password": "password",
+  "male": "male",
+  "female": "female",
+
+  "send": "send",
+
+  "Home": "Home",
+  "Statistics": "Statistics",
+  "Trading Platforms": "Trading Platforms",
+  "Settings": "Settings",
+  "Personal information": "Personal information",
+  "LOG OUT": "LOG OUT",
+  "Source": "Source",
+  "Prise": "Prise",
+  "Sold": "Sold",
+  "Status": "Status",
+  "Creation Date": "Creation Date",
+  "Expiration Date": "Expiration Date",
+  "GO TO SOURCE": "GO TO SOURCE",
+  "item(s)": "item(s)",
+  "in this month": "in this month",
+  "Profit": "Profit",
+  "Top Profitable Products": "Top Profitable Products",
+  "Number Of Ads": "Number Of Ads",
+  "Active Statistics": "Active Statistics",
+  "Number Of Views": "Number Of Views",
+  "Number Of Observing": "Number Of Observing",
+  "Number Of Phone Views": "Number Of Phone Views",
+
+  "Select Product": "Select Product",
+  "Select time": "Select time",
+  "week": "week",
+  "month": "month",
+  "year": "year",
+  "Active Statistics Line Graphic": "Active Statistics Line Graphic",
+
+  "Please Select Trading Platform": "Please Select Trading Platform",
+  "Authorize Via AutoRia": "Authorize Via AutoRia",
+  "Authorize Via Olx": "Authorize Via Olx",
+
+  "Number Of Products": "Number Of Products",
+  "This action affects the general statistics which cannot be changed.": "This action affects the general statistics which cannot be changed.",
+  "Please select how many products did you sell.": "Please select how many products did you sell.",
+  "Are you sure you want to mark the product as sold?": "Are you sure you want to mark the product as sold?",
+  "UAH": "UAH"
+}

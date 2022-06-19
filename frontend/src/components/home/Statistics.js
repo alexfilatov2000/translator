@@ -161,7 +161,7 @@ function Statistics() {
             },
             title: {
                 display: true,
-                text: 'Chart.js Line Chart',
+                text: t('Active Statistics Line Graphic'),
             },
         },
     };
@@ -172,20 +172,20 @@ function Statistics() {
         labels: getDaysArray((new Date()).setDate((new Date()).getDate() - days), new Date()),
         datasets: [
             {
-            label: 'Number Of Views',
+            label: t('Number Of Views'),
                 data: dataViews,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
             },
             {
-                label: 'Number Of Observing',
+                label: t('Number Of Observing'),
                 data: dataObserving,
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
             },
             {
-                label: 'Number Of Phone Views',
+                label: t("Number Of Phone Views"),
                 data: dataViewsPhone,
                 borderColor: 'rgb(53, 162, 235)',
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
@@ -221,7 +221,7 @@ function Statistics() {
             },
             title: {
                 display: true,
-                text: 'Top Profitable Products',
+                text: t("Top Profitable Products"),
             },
         }
     };
@@ -230,7 +230,7 @@ function Statistics() {
         labels: marketplaces?.soldStatistics?.products?.map(el => el?.title),
         datasets: [
             {
-                label: 'Profit',
+                label: t("Profit"),
                 data: marketplaces?.soldStatistics?.products?.map(el => el?.total),
                 backgroundColor: 'rgba(84, 176, 77, 0.5)',
             }
@@ -242,7 +242,7 @@ function Statistics() {
         labels: marketplaces?.adverts?.map(el => `${el?.title} (${el.source})`),
         datasets: [
             {
-                label: 'number of views',
+                label: t("Number of views"),
                 data: marketplaces?.adverts?.map(el => el.statistics?.advert_views),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
@@ -330,17 +330,17 @@ function Statistics() {
                     <Box sx={{height: 140}} className='hvr-box-shadow-outset'>
                         <div style={{width: '40%', height: 30, textAlign: "center", display: 'inline-block', marginTop: 15, backgroundColor: '#54B04D', borderRadius: 5}}>
                             <p style={{color: 'white', lineHeight: 0}}>
-                                Profit
+                                {t("Profit")}
                             </p>
                         </div>
 
                         <p style={{color: '#54B04D'}}>
-                            {marketplaces?.soldStatistics?.statistics?.totalPrice} $
+                            {marketplaces?.soldStatistics?.statistics?.totalPrice} ₴
                         </p>
 
                         <div style={{}}>
                             <ArrowDropUpRoundedIcon sx={{color: '#54B04D', verticalAlign: 'middle'}}/>
-                            <span style={{verticalAlign: 'middle', fontSize: 12}}>+ {marketplaces?.soldStatistics?.forPeriod?.totalPrice} $ in this month</span>
+                            <span style={{verticalAlign: 'middle', fontSize: 12}}>+ {marketplaces?.soldStatistics?.forPeriod?.totalPrice} ₴ {t("in this month")}</span>
                         </div>
 
                     </Box>
@@ -348,17 +348,17 @@ function Statistics() {
                     <Box sx={{height: 140}} className='hvr-box-shadow-outset'>
                         <div style={{width: '40%', height: 30, textAlign: "center", display: 'inline-block', marginTop: 15, backgroundColor: 'orange', borderRadius: 5}}>
                             <p style={{color: 'white', lineHeight: 0}}>
-                                Sold
+                                {t("Sold")}
                             </p>
                         </div>
 
                         <p style={{color: 'orange'}}>
-                            {marketplaces?.soldStatistics?.statistics?.totalCount} items
+                            {marketplaces?.soldStatistics?.statistics?.totalCount} {t("item(s)")}
                         </p>
 
                         <div style={{}}>
                             <ArrowDropUpRoundedIcon sx={{color: 'orange', verticalAlign: 'middle'}}/>
-                            <span style={{verticalAlign: 'middle', fontSize: 12}}>+ {marketplaces?.soldStatistics?.forPeriod?.totalCount} items in this month</span>
+                            <span style={{verticalAlign: 'middle', fontSize: 12}}>+ {marketplaces?.soldStatistics?.forPeriod?.totalCount} {t("item(s)")} {t("in this month")}</span>
                         </div>
                     </Box>
                 </Box>
@@ -406,14 +406,14 @@ function Statistics() {
                     </Box>
                 </div>
 
-                <Box style={{textAlign: 'center'}}>
+                <Box style={{textAlign: 'center', margin: 10}}>
                     <Box display={'flex'} style={{marginTop: 40}}>
                         <FormControl variant="standard" sx={{ m: 1, minWidth: 130 }}>
-                            <InputLabel>Select Product</InputLabel>
+                            <InputLabel>{t("Select Product")}</InputLabel>
                             <Select
                                 value={product}
                                 onChange={handleChange}
-                                label="Select Product"
+                                label={t("Select Product")}
                                 style={{width:"100%"}}
                             >
                                 <MenuItem value="">
@@ -426,20 +426,20 @@ function Statistics() {
                             </Select>
                         </FormControl>
                         <FormControl variant="standard" sx={{ m: 1, minWidth: 130 }}>
-                            <InputLabel>Select time</InputLabel>
+                            <InputLabel>{t("Select time")}</InputLabel>
                             <Select
                                 value={days}
                                 onChange={handleChangeDays}
                                 lable="Select time"
                             >
                                 <MenuItem value={6}>
-                                    <em>week</em>
+                                    <em>{t("week")}</em>
                                 </MenuItem>
                                 <MenuItem value={daysInMonth(-1)}>
-                                    <em>month</em>
+                                    <em>{t("month")}</em>
                                 </MenuItem>
                                 <MenuItem value={365}>
-                                    <em>year</em>
+                                    <em>{t("year")}</em>
                                 </MenuItem>
                             </Select>
                         </FormControl>

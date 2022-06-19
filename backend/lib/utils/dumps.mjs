@@ -27,7 +27,7 @@ export function dumpAdvert({
         defaultAdvert.status      = advert.status;
         defaultAdvert.title       = advert.title;
         defaultAdvert.description = advert.description;
-        defaultAdvert.price       = advert.price.value;
+        defaultAdvert.price       = advert.price.currency === 'USD' ? advert.price.value * 35 : advert.price.value;
         defaultAdvert.image       = advert.images[0]?.url;
         defaultAdvert.source      = 'OLX';
         defaultAdvert.sourceURL   = 'https://drive.google.com/uc?id=15tkcvdbRxGT-aWnXh-R1GqDf16b_XOjL';
@@ -35,7 +35,7 @@ export function dumpAdvert({
         defaultAdvert.expireDate  = advert.valid_to;
         defaultAdvert.statistics  = advert.statistics.data;
         defaultAdvert.sourceData  = advert;
-        defaultAdvert.currency      = advert.price.currency;
+        defaultAdvert.currency    = 'UAH';
     }
 
     if (autoriaEnabled) {
@@ -44,8 +44,8 @@ export function dumpAdvert({
         defaultAdvert.status      = 'active';
         defaultAdvert.title       = `${advert.title} ${advert.autoData.year}`;
         defaultAdvert.description = advert.autoData.description;
-        defaultAdvert.price       = advert.USD;
-        defaultAdvert.currency = 'USD';
+        defaultAdvert.price       = advert.UAH;
+        defaultAdvert.currency    = 'UAH';
         defaultAdvert.image       = advert.photoData.seoLinkF;
         defaultAdvert.source      = 'AutoRIA';
         defaultAdvert.sourceURL   = 'https://drive.google.com/uc?id=1YGkRuohRqBjrGPlf3ShDvbxfUwbqrVjZ';

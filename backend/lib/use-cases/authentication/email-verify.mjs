@@ -5,6 +5,7 @@ import config from '#global-config' assert {type: 'json'};
 
 export default class emailVerify extends Base {
     async execute(data) {
+        console.log(222);
         const id = (await jwt.decode(data.token, config.tokenEmailKey)).id;
         const user = await User.findByPk(id);
 

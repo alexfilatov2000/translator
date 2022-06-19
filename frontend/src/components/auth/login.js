@@ -32,7 +32,7 @@ function Login() {
             <form onSubmit={handleSubmit} style={styleAuth.Form}>
                 <CustomInput onChange={onChangeEmail} required placeholder={t('email')} type='email'/>
                 <CustomInput onChange={onChangePassword} required placeholder={t('password')} type='password'/>
-                <Button style={styleAuth.Button} type="submit" variant='contained' color='primary'>{t("Go")}</Button>
+                <Button style={styleAuth.Button} type="submit" variant='contained' color='primary'>{t("Далі")}</Button>
             </form>
         </div>
     )

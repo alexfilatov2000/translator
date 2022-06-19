@@ -56,8 +56,6 @@ export default class CloneAdvert extends Base {
 
                     const x = await res.json();
 
-                    console.log(x);
-                    console.log(x?.error?.validation);
                 } catch (e) {
                     console.log(e);
                     console.log(e?.error?.validation);

@@ -1,0 +1,57 @@
+{
+  "hello": "привет",
+
+  "sing in": "Вход",
+  "register": "Регистрация",
+  "home": "Дамой",
+
+  "username": "имя пользоватиля",
+  "full name": "полное имя",
+  "email": "електроная почта",
+  "password": "пароль",
+  "male": "мужчина",
+  "female": "женчина",
+
+  "send": "отправить",
+
+  "Home": "Главная Страцица",
+  "Statistics": "Статистика",
+  "Trading Platforms": "Торговые площадки",
+  "Settings": "Настройки",
+  "Language": "Язык",
+  "Personal information": "Персональные Данные",
+  "LOG OUT": "ВЫЙТИ",
+  "Source": "Торговая Площадка",
+  "Prise": "Цена",
+  "Sold": "Продано",
+  "Status": "Статус",
+  "Creation Date": "Дата Создания",
+  "Expiration Date": "Срок годности",
+  "GO TO SOURCE": "ПЕРЕЙТИ К РЕСУРСУ",
+  "item(s)": "шт.",
+  "in this month": "в этом месяце",
+  "Profit": "Прибыль",
+  "Top Profitable Products": "Рейтинг Продаваемых Товаров",
+  "Number Of Ads": "Количество Объявлений",
+  "Active Statistics": "Активная Статистика",
+  "Number Of Views": "Количество Просмотров",
+  "Number Of Observing": "Количество Наблюдений",
+  "Number Of Phone Views": "Количество Просмотров Номера Телефона",
+
+  "Select Product": "Выберете Товар",
+  "Select time": "Виберете Время",
+  "week": "неделя",
+  "month": "месяц",
+  "year": "год",
+  "Active Statistics Line Graphic": "Ленейный График Активной Статистики",
+
+  "Please Select Trading Platform": "Виберете Тороговую Площадку",
+  "Authorize Via AutoRia": "Авторизоваться Через AutoRia",
+  "Authorize Via Olx": "Авторизоваться Через Olx",
+
+  "Number Of Products": "Количество Товаров",
+  "This action affects the general statistics which cannot be changed.": "Это действие повлияет на общую статистику, которую нельзя будет изменить.",
+  "Please select how many products did you sell.": "Выберите количетво проданых товаров.",
+  "Are you sure you want to mark the product as sold?": "Вы уверены, что хотите пометить товар как проданный?",
+  "UAH": "грн."
+}

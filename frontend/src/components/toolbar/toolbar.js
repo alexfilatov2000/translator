@@ -104,23 +104,19 @@ export default function ToolbarMain(props) {
         navigate(`/statistics`)
     }
 
-    // const olx = () => {
-    //     navigate(`/`)
-    // }
-
     const drawer = (
         <div>
             <Toolbar />
             <Divider />
             <List>
                 {[{
-                    text: 'HOME',
+                    text: t("Home"),
                     func: home
                 }, {
-                     text: 'Statistics',
+                     text: t("Statistics"),
                      func: statistics
                 }, {
-                    text: 'Trading Platforms',
+                    text: t("Trading Platforms"),
                     func: tradingPlatforms
                 },
                 ]
@@ -137,7 +133,7 @@ export default function ToolbarMain(props) {
             </List>
             <Divider />
             <List>
-                {[{text: 'Settings', func: settings}].map(({text, func}) => (
+                {[{text: t("Settings"), func: settings}].map(({text, func}) => (
                     <ListItem key={text} disablePadding>
                         <ListItemButton onClick={func}>
                             <ListItemIcon>

@@ -1,7 +1,7 @@
 import config from './config'
 
 export default {
-    supportedLngs: ['en', 'uk', 'ru'],
+    supportedLngs: ['en', 'ua', 'ru'],
     fallbackLng: 'en',
     debug: false,
     // Options for language detector
@@ -11,7 +11,7 @@ export default {
     },
     // react: { useSuspense: false },
     backend: {
-        loadPath: `${config.url}/assets/locales/{{lng}}/translation.json`,
+        loadPath: `${config.cleanUrl}/assets/locales/{{lng}}/translation.json`,
     },
 }
 
@@ -22,7 +22,7 @@ export const languages = [
         country_flag: '🇬🇧',
     },
     {
-        code: 'uk',
+        code: 'ua',
         name: 'Українська',
         country_flag: '🇺🇦',
     },

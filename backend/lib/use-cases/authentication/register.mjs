@@ -32,9 +32,10 @@ export default class register extends Base {
 
         // TODO set correct adminUrl
         const url = `${config.adminUrl}/verify-email/${token}`;
+        console.log(config.email)
 
         // TODO create gmail account and put it to the config. It will be work ↓
-        // await mail(config.email, url, "Click to verify account", "");
+        await mail(email, url, "Click to verify account", "hello");
 
         return { token };
     }

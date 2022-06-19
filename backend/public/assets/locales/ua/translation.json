@@ -1,0 +1,57 @@
+{
+  "hello": "привіт",
+
+  "sing in": "Вхід",
+  "register": "Реєстрація",
+  "home": "Додому!",
+
+  "username": "ім'я користувача",
+  "full name": "повне ім'я",
+  "email": "пошта",
+  "password": "пароль",
+  "male": "чоловік",
+  "female": "жінка",
+
+  "send": "відправити",
+
+  "Home": "Головна Сторінка",
+  "Statistics": "Статистика",
+  "Trading Platforms": "Торговельні Майданчики",
+  "Settings": "Налаштування",
+  "Language": "Мова",
+  "Personal information": "Персональна Інформація",
+  "LOG OUT": "ВИЙТИ",
+  "Source": "Торговельний Майданчик",
+  "Prise": "Ціна",
+  "Sold": "Продано",
+  "Status": "Статус",
+  "Creation Date": "Дата Створення",
+  "Expiration Date": "Термін Придатнсті",
+  "GO TO SOURCE": "ПЕРЕЙТИ ДО РЕСУРСУ",
+  "item(s)": "шт.",
+  "in this month": "в цьому місяці",
+  "Profit": "Прибуток",
+  "Top Profitable Products": "Рейтинг Товарів За Прибутком",
+  "Number Of Ads": "Кількість Оголошень",
+  "Active Statistics": "Активна Статистика",
+  "Number Of Views": "Кількість Переглядів",
+  "Number Of Observing": "Кількість Спостережень",
+  "Number Of Phone Views": "Кількість Переглядів Номеру Телефона",
+
+  "Select Product": "Виберіть Товар",
+  "Select time": "Виберіть Час",
+  "week": "тиждень",
+  "month": "місяць",
+  "year": "рік",
+  "Active Statistics Line Graphic": "Лінійний Графік Активної Статистики",
+
+  "Please Select Trading Platform": "Виберіть Торговельний Майданчик",
+  "Authorize Via AutoRia": "Авторизуватися Через AutoRia",
+  "Authorize Via Olx": "Авторизуватися Через Olx",
+
+  "Number Of Products": "Кількість Товарів",
+  "This action affects the general statistics which cannot be changed.": "Ця дія вплине на загальну статистику, яку неможливо буде змінити.",
+  "Please select how many products did you sell.": "Виберіть кількість проданих товарів.",
+  "Are you sure you want to mark the product as sold?": "Ви впевнені, що хочете позначити товар як проданий?",
+  "UAH": "грн."
+}

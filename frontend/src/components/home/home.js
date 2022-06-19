@@ -144,18 +144,18 @@ function Home() {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                {"Are you sure you want to mark the product as sold?"}
+                {t("Are you sure you want to mark the product as sold?")}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    This action affects the general statistics which cannot be changed.
+                    {t("This action affects the general statistics which cannot be changed.")}
                     <br/>
-                    Please select how many products did you sell.
+                    {t("Please select how many products did you sell.")}
                 </DialogContentText>
             </DialogContent>
 
             <Box textAlign={"center"}>
-                <InputLabel id="demo-simple-select-standard-label">Number Of Products</InputLabel>
+                <InputLabel id="demo-simple-select-standard-label">{t("Number Of Products")}</InputLabel>
                 <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
@@ -237,22 +237,25 @@ function Home() {
                                     {advert.title}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
-                                    Source: {advert.source}
+                                    {t("Source")}: {advert.source}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
-                                    Prise: {advert.price} {advert.currency}
+                                    {t("Prise")}: {advert.price} {t(advert.currency)}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
-                                    status: {advert.status}
+                                    {t("Sold")}: {advert.soldCount} {t("item(s)")}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" style={{textAlign:"left"}}>
+                                    {t("Status")}: {advert.status}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" style={{textAlign:"left", color: "green"}}>
-                                    Creation Date: {moment(advert.createdAt).format('L')}
+                                    {t("Creation Date")}: {moment(advert.createdAt).format('L')}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" style={{textAlign:"left", color: "red"}}>
-                                    Expiration Date: {moment(advert.expireDate).format('L')}
+                                    {t("Expiration Date")}: {moment(advert.expireDate).format('L')}
                                 </Typography>
                                 <Box style={{backgroundColor: '#e6e4e5', display: "flex", justifyContent: "center", alignContent: "center", flexDirection: "row", lineHeight: 2, marginTop: 5}}>
-                                    <span style={{verticalAlign: "middle", marginRight: 20}}>Statisticts</span>
+                                    <span style={{verticalAlign: "middle", marginRight: 20}}>{t("Statistics")}:</span>
                                     <span style={{ marginRight: 5}}><RemoveRedEyeOutlinedIcon/>{advert.statistics.advert_views}</span>
                                     <span style={{ marginRight: 5}}><FavoriteBorderOutlinedIcon/>{advert.statistics.users_observing}</span>
                                     <span style={{ marginRight: 5}}><LocalPhoneOutlinedIcon/>{advert.statistics.phone_views}</span>
@@ -278,7 +281,7 @@ function Home() {
                                         <DeleteOutlineRoundedIcon/>
                                     </Button>
 
-                                    <Button style={{float: "right", color: 'grey'}} onClick={()=>{window.open(advert.url, "_blank")}} size="small" >GO to source</Button>
+                                    <Button style={{float: "right", color: 'grey'}} onClick={()=>{window.open(advert.url, "_blank")}} size="small">{t("GO TO SOURCE")}</Button>
                                 </CardActions>
                             </Box>
                         </Card>
