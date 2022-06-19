@@ -103,6 +103,7 @@ export const markAsSold = createAsyncThunk(
             const data = res.data?.data;
 
             if (!data) {
+                toast.error("MARK_AS_SOLD_FAILED");
                 return {error: 'MARK_AS_SOLD_FAILED'};
             }
 
@@ -127,6 +128,7 @@ export const getSoldStatistics = createAsyncThunk(
             const data = res.data?.data;
 
             if (!data) {
+                toast.error("GET_SOLD_STATISTICS_FAILED");
                 return {error: 'GET_SOLD_STATISTICS_FAILED'};
             }
 

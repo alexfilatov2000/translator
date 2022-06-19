@@ -1,5 +1,6 @@
 import { DataTypes as DT }     from 'sequelize';
 import Base                from './Base.mjs';
+import argon2 from "argon2";
 
 class User extends Base {
     static tableName = 'Users';
@@ -36,6 +37,26 @@ class User extends Base {
 
 
         return this.create({ ...params });
+    }
+
+    static async updateUser({id, params}){
+        let {password, full_name} = params;
+        const user = await this.findOne({ where: { id: id } });
+        let errors = {};
+
+        let obj = {};
+
+        if (password){
+            obj.password = await argon2.hash(password);
+        }
+
+        if (Object.keys(errors).length){
+            throw errors
+        }
+
+        const userUpdate = await user.update({...obj});
+
+        return {user: userUpdate, updateData: {password, full_name}};
     }
 }
 

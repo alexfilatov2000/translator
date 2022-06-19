@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from "../utils/axios";
 import {parseToken} from "../../utils/parseToken";
+import { toast } from 'react-toastify';
 
 export const sendGetUser = createAsyncThunk(
     'users/sendGetUser',
@@ -10,7 +11,7 @@ export const sendGetUser = createAsyncThunk(
             const res = await axios.get(`/users/${param.id}`);
             return res.data.user;
         } catch (err) {
-            return {error: err.response.data.error};
+            toast.error(err.response.data.error);
         }
     }
 )
@@ -20,9 +21,9 @@ export const sendDeleteUser = createAsyncThunk(
     async (id) => {
         try {
             await axios.delete(`/users/${id}`);
-            return {success: "user deleted"};
+            toast.success("user deleted");
         } catch (err) {
-            return {error: err.response.data.error};
+            toast.error(err.response.data.error);
         }
     }
 )
@@ -31,11 +32,24 @@ export const sendUpdate = createAsyncThunk(
     'users/sendUpdate',
     async (param, thunkAPI) => {
         try {
-            const res = await axios.patch(`/users/${param.id}`, param.user);
-            param.navigate(`/users/${param.id}`);
-            return {success: "updated", user: res.data};
+            const res = await axios.patch(`/users/${param.token}`, param.user);
+            toast.success("user updated");
+            param.navigate("/login");
+            return {user: res.data};
         } catch (err) {
-            return {error: err.response.data.error};
+            toast.success(err.response.data.error);
+        }
+    }
+)
+
+export const sendUpdateVerify = createAsyncThunk(
+    'users/sendUpdateVerify',
+    async (param, thunkAPI) => {
+        try {
+            await axios.post(`/update-verify`, param);
+            toast.success("check email");
+        } catch (err) {
+            toast.success(err.response.data.error);
         }
     }
 )
@@ -49,20 +63,21 @@ export const sendLogin = createAsyncThunk(
             if (res?.data?.status) {
                 param.navigate("/")
                 localStorage.setItem('token', res.data.token)
+                toast.success("login");
                 return {
                     token: localStorage.getItem('token'),
                     user: res.data.user,
                     error: null,
-                    success: "login"
                 };
             } else {
                 console.log(222);
                 //TODO: сделать нормальный вывод ошибок при логине и регестрации, на беке все ок
+                toast.success(res.data.error);
                 return {error: res.data.error.code};
             }
         } catch (err) {
             console.log(err.response.data.error)
-            return {error: err.response.data.error};
+            toast.error(err.response.data.error);
         }
     }
 )
@@ -73,9 +88,10 @@ export const sendRegister = createAsyncThunk(
         try {
             await axios.post(`/register`, param.user);
             param.navigate('/login');
-            return {error: null, success: "check your email"};
+            toast.success("check your email");
         } catch (err) {
-            return {error: err.response.data.error};
+            console.log("111111")
+            toast.error(err.response.data.error);
         }
     }
 )
@@ -86,9 +102,9 @@ export const sendVerifyEmail = createAsyncThunk(
         try {
             await axios.get(`/verify-email/${params.token}`);
             params.navigate("/login")
-            return {success: "email is verified"};
+            toast.success("email is verified");
         } catch (err) {
-            return {error: err.response.data.error};
+            toast.error(err.response.data.error);
         }
     }
 )
@@ -110,12 +126,8 @@ const slice = createSlice({
         logOut: (state, action) => {
             state.user = null;
             state.token = null;
-            state.success = "logout";
+            toast.success("logout");
             localStorage.removeItem('token');
-        },
-        clearMess: (state, action) => {
-            state.error = null;
-            state.success = null;
         },
     },
     extraReducers: (builder) => {
@@ -134,29 +146,25 @@ const slice = createSlice({
         builder.addCase(sendDeleteUser.fulfilled, (state, action) => {
             state.specUser = null;
             state.users = null;
-            state.success = "user deleted";
         })
         builder.addCase(sendUpdate.fulfilled, (state, action) => {
-            state.error = action.payload.error;
-            state.success = action.payload.success;
             state.user = action.payload.user;
         })
         builder.addCase(sendLogin.fulfilled, (state, action) => {
             state.token = action.payload.token;
             state.user = action.payload.user;
-            state.error = action.payload.error;
-            state.success = action.payload.success;
         })
         builder.addCase(sendRegister.fulfilled, (state, action) => {
-            state.error = action.payload.error;
-            state.success = action.payload.success;
+
         })
         builder.addCase(sendVerifyEmail.fulfilled, (state, action) => {
-            state.error = action.payload.error;
-            state.success = action.payload.success;
+
+        })
+        builder.addCase(sendUpdateVerify.fulfilled, (state, action) => {
+
         })
     }
 })
 
 export default slice.reducer;
-export const { logOut, clearMess } = slice.actions;
+export const { logOut } = slice.actions;

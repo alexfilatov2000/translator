@@ -10,9 +10,10 @@ import NotFound from "./components/utils/notfound";
 import Home from "./components/home/home";
 import TradingPlatforms from "./components/home/TradingPlatforms"
 import Settings from "./components/users/settings";
+import UpdateVerify from "./components/users/update-verify";
+import ResetPassword  from "./components/users/reset-password";
 import Statistics from "./components/home/Statistics";
 // import Sale from "./components/sale/sale";
-import {RouteClient} from "./components/utils/route";
 
 function App(){
     return (
@@ -28,6 +29,8 @@ function App(){
                     <Route exact path="/register" element={<Register/>}/>
                     <Route exact path="/verify-email/:token" element={<RegisterVerify/>}/>
                     <Route exact path="/settings" element={<Settings/>}/>
+                    <Route exact path="/reset-password/:token" element={<ResetPassword/>}/>
+                    <Route exact path="/update-verify" element={<UpdateVerify/>}/>
                     <Route exact path="/trading-platform" element={<TradingPlatforms/>}/>
                     <Route exact path="/statistics" element={<Statistics/>}/>
                     <Route exact path="/404" element={<NotFound/>}/>

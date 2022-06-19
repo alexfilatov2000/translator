@@ -65,6 +65,9 @@ export default function Settings() {
         dispatch(logOutMarkets())
         navigate('/');
     }
+    const handlePassword = () => {
+        navigate('/update-verify');
+    }
 
     useEffect(()=>{
         if (decode.id){
@@ -93,7 +96,7 @@ export default function Settings() {
                     <div style={styles.type}>email</div>
                     <div style={styles.value}>{users.user?.email}</div>
                 </Button>
-                <Button style={styles.base} variant='outlined'>
+                <Button style={styles.base} variant='outlined'onClick={handlePassword}>
                     <div style={styles.type}>password</div>
                     <div style={styles.value}>
                         <div>********</div>

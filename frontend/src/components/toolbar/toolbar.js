@@ -30,7 +30,6 @@ import config from "../../config/config";
 import {parseToken} from '../../utils/parseToken';
 import Lg from './lgSelector'
 import {useTranslation} from 'react-i18next'
-import {AlertMessage} from "../utils/alert";
 import PropTypes from 'prop-types';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Zoom from '@mui/material/Zoom';
@@ -209,9 +208,6 @@ export default function ToolbarMain(props) {
                     </Drawer>
                 </div>
             }
-            <Box display={'block'} style={{width: 250, margin: 15, right: 15, position: "absolute"}}>
-                <AlertMessage error={users.error} success={users.success}/>
-            </Box>
             <ScrollTop {...props}>
                 <Fab color="secondary" size="small" aria-label="scroll back to top">
                     <KeyboardArrowUpIcon />

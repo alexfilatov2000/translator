@@ -16,6 +16,8 @@ export default function init() {
     // users
     router.get('/users',  controllers.users.show);
     router.get('/users/:id',  controllers.users.getOne);
+    router.post('/update-verify',  controllers.users.getUpdateToken);
+    router.patch('/users/:token',  controllers.users.update);
 
     // authentication
     router.post('/login',  controllers.authentication.login);
