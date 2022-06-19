@@ -9,12 +9,12 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-export default async function sendToVerify(email, url, subject, txt) {
+export default async function sendToVerify(email, url, subject, text) {
     const mailOptions = {
         from : config.email,
         to   : email,
         subject,
-        text : `${txt} ${url}`
+        text
     };
 
     console.log({
