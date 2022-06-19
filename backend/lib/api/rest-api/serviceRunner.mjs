@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../../domain-model/User.mjs';
 import config from '#global-config' assert {type: 'json'};
+import {Exception} from "../../use-cases/Exception.mjs";
 
 export async function runUseCase(useCaseClass, { context = {}, params = {} }) {
     const result = await new useCaseClass({ context }).run(params);
@@ -62,14 +63,22 @@ export async function renderPromiseAsJson(req, res, promise) {
 
         return res.send(data);
     } catch (error) {
-        console.log(error);
-        res.send({
-            status : 0,
-            error  : {
-                code    : 'SERVER_ERROR',
-                message : 'Please, contact your system administartor!'
-            }
-        });
+        /* istanbul ignore next */
+        if (error instanceof Exception) {
+            res.send({
+                status : 0,
+                error  : error.toHash()
+            });
+        } else {
+            console.log(error);
+            res.send({
+                status : 0,
+                error  : {
+                    code    : 'SERVER_ERROR',
+                    message : 'Please, contact your system administartor!'
+                }
+            });
+        }
     }
 }
 

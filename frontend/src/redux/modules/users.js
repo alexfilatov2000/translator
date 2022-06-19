@@ -45,14 +45,19 @@ export const sendLogin = createAsyncThunk(
     async (param, thunkAPI) => {
         try {
             const res = await axios.post(`/login`, param.user);
-            param.navigate("/")
-            localStorage.setItem('token', res.data.token)
-            return {
-                token: localStorage.getItem('token'),
-                user: res.data.user,
-                error: null,
-                success: "login"
-            };
+            if (!res.data.status) {
+                //TODO: сделать нормальный вывод ошибок при логине и регестрации, на беке все ок
+                return {error: res.data.error.code};
+            } else {
+                param.navigate("/")
+                localStorage.setItem('token', res.data.token)
+                return {
+                    token: localStorage.getItem('token'),
+                    user: res.data.user,
+                    error: null,
+                    success: "login"
+                };
+            }
         } catch (err) {
             console.log(err.response.data.error)
             return {error: err.response.data.error};

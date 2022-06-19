@@ -16,6 +16,7 @@ export default class login extends Base {
     }
 
     async execute({ email, password }) {
+        console.log(222);
         const user = await User.findOne({ where: { email } });
 
         const errors = {};
