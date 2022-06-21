@@ -52,5 +52,10 @@
   "This action affects the general statistics which cannot be changed.": "This action affects the general statistics which cannot be changed.",
   "Please select how many products did you sell.": "Please select how many products did you sell.",
   "Are you sure you want to mark the product as sold?": "Are you sure you want to mark the product as sold?",
-  "UAH": "UAH"
+  "UAH": "UAH",
+  "We will send link to email": "We will send link to email",
+  "Update verify": "Update verify",
+  "Are you sure you want to deactivate product?": "Are you sure you want to deactivate product?",
+  "Cancel": "Cancel",
+  "Yes": "Yes"
 }

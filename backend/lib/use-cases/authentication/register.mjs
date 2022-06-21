@@ -35,8 +35,8 @@ export default class register extends Base {
         console.log(config.email)
 
         // TODO create gmail account and put it to the config. It will be work ↓
-        const text = `You should follow the link to verify your email ⬇⬇⬇\n${url}`;
-        await mail(email, url, "Email Verification", text);
+        const text = `Перейдіть за посиланням для підтвердження вашого email ⬇⬇⬇\n${url}`;
+        await mail(email, url, "Email Верифікація", text);
 
         return { token };
     }

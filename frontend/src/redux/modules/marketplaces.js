@@ -108,7 +108,33 @@ export const markAsSold = createAsyncThunk(
             }
 
             param.onClose();
-            toast.success("Information was successfully saved");
+            toast.success("Товар успішно додано у список проданих");
+        } catch (err) {
+            return {error: err.response.data.error};
+        }
+    }
+)
+
+export const deactivateProduct = createAsyncThunk(
+    '/adverts/deactivateProduct',
+    async (param, thunkAPI) => {
+        try {
+            // console.log(1, param.token)
+            // const res = await axios.post(`/adverts/deactivateProduct`, param.data, {
+            //     headers: {
+            //         authorization: `Bearer ${param.token}`
+            //     }
+            // });
+            //
+            // const data = res.data?.data;
+            //
+            // if (!data) {
+            //     toast.error("MARK_AS_SOLD_FAILED");
+            //     return {error: 'MARK_AS_SOLD_FAILED'};
+            // }
+
+            param.onClose();
+            toast.success("Товар був успішно деактивований");
         } catch (err) {
             return {error: err.response.data.error};
         }

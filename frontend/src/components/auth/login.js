@@ -36,7 +36,7 @@ function Login() {
                 <Button style={styleAuth.Button} type="submit" variant='contained' color='primary'>{t("Далі")}</Button>
             </form>
             <Link to={"/update-verify"} style={{textDecoration:"none", color:"#a2a2a2"}}>
-                Did you forgot password? Terrible...
+                Забули пароль? Бажаєте відновити...
             </Link>
         </div>
     )

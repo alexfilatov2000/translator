@@ -2,7 +2,14 @@ import React, {useEffect, useState} from "react";
 import {useTranslation} from 'react-i18next'
 import {useDispatch, useSelector} from "react-redux";
 import * as rr from "react-redux";
-import {createRiaSession, createSession, getAdverts, cloneAdverts, markAsSold} from "../../redux/modules/marketplaces";
+import {
+    createRiaSession,
+    createSession,
+    getAdverts,
+    cloneAdverts,
+    markAsSold,
+    deactivateProduct
+} from "../../redux/modules/marketplaces";
 import moment from 'moment';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
@@ -58,6 +65,7 @@ function Home() {
 
     const [advertForClone, setAdvertForClone] = useState({});
     const [advertForSold, setAdvertForSold] = useState({});
+    const [advertForStop, setAdvertForStop] = useState({});
 
     const openAdvertForm = (e, advert) => {
         setAdvertForClone(advert)
@@ -67,6 +75,7 @@ function Home() {
     const [open, setOpen] = useState(false);
     const [numberOfAdverts, setNumberOfAdverts] = React.useState(1);
     const [openCompleteDialog, setOpenCompleteDialog] = useState(false);
+    const [openStopDialog, setOpenStopDialog] = useState(false);
     const [filter, setFilter] = React.useState(['OLX', 'AutoRIA']);
     const olx_access_token = !!marketplaces?.olx_access_token
     const ria_access_token = !!marketplaces?.ria_access_token
@@ -125,7 +134,17 @@ function Home() {
         }));
     }
 
-    console.log({marketplaces})
+    const handleDeactivate = (e) => {
+        e.preventDefault();
+        dispatch(deactivateProduct({
+            data: {
+                advert: advertForStop,
+                olx_access_token: marketplaces?.olx_access_token
+            },
+            token: users.token,
+            onClose: handleCloseStopDialog
+        }));
+    }
 
     const handleOpenCompleteDialog = (e, advert) => {
         setAdvertForSold(advert)
@@ -134,6 +153,15 @@ function Home() {
 
     const handleCloseCompleteDialog = () => {
         setOpenCompleteDialog(false);
+    };
+
+    const handleOpenStopDialog = (e, advert) => {
+        setAdvertForStop(advert)
+        setOpenStopDialog(true);
+    };
+
+    const handleCloseStopDialog = () => {
+        setOpenStopDialog(false);
     };
 
     const completeDialog = (
@@ -170,9 +198,29 @@ function Home() {
                 </Select>
             </Box>
             <DialogActions>
-                <Button onClick={handleCloseCompleteDialog}>Cancel</Button>
+                <Button onClick={handleCloseCompleteDialog}>{t('Cancel')}</Button>
                 <Button onClick={handleMarkAsSold} autoFocus>
-                    Yes
+                    {t('Yes')}
+                </Button>
+            </DialogActions>
+        </Dialog>
+    )
+
+    const stopDialog = (
+        <Dialog
+            open={openStopDialog}
+            onClose={handleCloseStopDialog}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogTitle id="alert-dialog-title">
+                {t("Are you sure you want to deactivate product?")}
+            </DialogTitle>
+
+            <DialogActions>
+                <Button onClick={handleCloseStopDialog}>{t('Cancel')}</Button>
+                <Button onClick={handleDeactivate} autoFocus>
+                    {t('Yes')}
                 </Button>
             </DialogActions>
         </Dialog>
@@ -202,17 +250,6 @@ function Home() {
                             ))}
                         </Select>
                     </FormControl>
-                    <Box style={{width: 150, marginTop: 10, marginLeft: 20, textAlign: "center"}}>
-                        <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            options={marketplaces?.adverts}
-                            getOptionLabel={(option) => option.title}
-                            onChange={handleSearch}
-                            sx={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="Find one ..." />}
-                        />
-                    </Box>
                 </Box>
 
                 {marketplaces?.adverts?.filter(el => filter.includes(el.source)).map((advert) =>
@@ -276,10 +313,11 @@ function Home() {
                                     <Button
                                         style={{float: "left", color: 'red'}}
                                         size="small"
-                                        onClick={(e) => openAdvertForm(e, advert)}
+                                        onClick={(e) => handleOpenStopDialog(e, advert)}
                                     >
                                         <DeleteOutlineRoundedIcon/>
                                     </Button>
+                                    {stopDialog}
 
                                     <Button style={{float: "right", color: 'grey'}} onClick={()=>{window.open(advert.url, "_blank")}} size="small">{t("GO TO SOURCE")}</Button>
                                 </CardActions>

@@ -28,7 +28,7 @@ export default function ResetPassword() {
 
     return (
         <div style={styleAuth.Div}>
-            <h2 style={styleAuth.Title}>{t('reset password')}</h2>
+            <h2 style={styleAuth.Title}>{t('Відновлення пароля')}</h2>
             <form onSubmit={handleSubmit} style={styleAuth.Form}>
                 <CustomInput onChange={onChangePassword} required placeholder={t('password')} type='password'/>
                 <Button style={styleAuth.Button} type="submit" variant='contained' color='primary'>{t("Далі")}</Button>

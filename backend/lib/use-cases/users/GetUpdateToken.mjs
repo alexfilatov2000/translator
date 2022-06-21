@@ -19,7 +19,7 @@ export default class GetUpdateToken extends Base {
         console.log(user)
         const token = await jwt.sign({ id: user.id }, config.tokenEmailKey, { expiresIn: '1h' });
         const url = `${config.adminUrl}/reset-password/${token}`;
-        const text = `You should follow the link to update your password ⬇⬇⬇\n${url}`;
-        await mail(email, url, "Click to verify account", text);
+        const text = `Перейдіть за посиланням для відновлення пароля ⬇⬇⬇\n${url}`;
+        await mail(email, url, "Відновлення пароля", text);
     }
 }

@@ -33,7 +33,7 @@ export const sendUpdate = createAsyncThunk(
     async (param, thunkAPI) => {
         try {
             const res = await axios.patch(`/users/${param.token}`, param.user);
-            toast.success("user updated");
+            toast.success("Дані оновленно");
             param.navigate("/login");
             return {user: res.data};
         } catch (err) {
@@ -47,7 +47,7 @@ export const sendUpdateVerify = createAsyncThunk(
     async (param, thunkAPI) => {
         try {
             await axios.post(`/update-verify`, param);
-            toast.success("check email");
+            toast.success("Посилання надіслано на вказаний email");
         } catch (err) {
             toast.success(err.response.data.error);
         }
@@ -61,19 +61,23 @@ export const sendLogin = createAsyncThunk(
             const res = await axios.post(`/login`, param.user);
             console.log(res);
             if (res?.data?.status) {
-                param.navigate("/")
+                console.log(121);
+                param.navigate("/trading-platform")
                 localStorage.setItem('token', res.data.token)
-                toast.success("login");
+                toast.success("Авторизація пройшла успішно");
                 return {
                     token: localStorage.getItem('token'),
                     user: res.data.user,
                     error: null,
                 };
             } else {
-                console.log(222);
-                //TODO: сделать нормальный вывод ошибок при логине и регестрации, на беке все ок
-                toast.success(res.data.error);
-                return {error: res.data.error.code};
+                const codes = {
+                    TOO_SHORT: 'Пароль занадто короткий'
+                }
+
+                if (res.data.error.code === 'FORMAT_ERROR') {
+                    toast.error(codes[res.data.error.fields.password]);
+                }
             }
         } catch (err) {
             console.log(err.response.data.error)
@@ -88,9 +92,8 @@ export const sendRegister = createAsyncThunk(
         try {
             await axios.post(`/register`, param.user);
             param.navigate('/login');
-            toast.success("check your email");
+            toast.success("Перевірте ваш email");
         } catch (err) {
-            console.log("111111")
             toast.error(err.response.data.error);
         }
     }
@@ -102,7 +105,7 @@ export const sendVerifyEmail = createAsyncThunk(
         try {
             await axios.get(`/verify-email/${params.token}`);
             params.navigate("/login")
-            toast.success("email is verified");
+            toast.success("email підтверджено");
         } catch (err) {
             toast.error(err.response.data.error);
         }
@@ -126,7 +129,7 @@ const slice = createSlice({
         logOut: (state, action) => {
             state.user = null;
             state.token = null;
-            toast.success("logout");
+            toast.success("Ви успішно виведені із системи");
             localStorage.removeItem('token');
         },
     },

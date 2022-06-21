@@ -53,5 +53,10 @@
   "This action affects the general statistics which cannot be changed.": "Это действие повлияет на общую статистику, которую нельзя будет изменить.",
   "Please select how many products did you sell.": "Выберите количетво проданых товаров.",
   "Are you sure you want to mark the product as sold?": "Вы уверены, что хотите пометить товар как проданный?",
-  "UAH": "грн."
+  "UAH": "грн.",
+  "We will send link to email": "Ми відправимо посилання на ваш email",
+  "Update verify": "Відновлення пароля",
+  "Are you sure you want to deactivate product?": "Ви впевнені що хочете деактивувати товар?",
+  "Cancel": "Вийти",
+  "Yes": "Так"
 }

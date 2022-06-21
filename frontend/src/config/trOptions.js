@@ -26,9 +26,9 @@ export const languages = [
         name: 'Українська',
         country_flag: '🇺🇦',
     },
-    {
-        code: 'ru',
-        name: 'Русский',
-        country_flag: '🇷🇺',
-    },
+    // {
+    //     code: 'ru',
+    //     name: 'Русский',
+    //     country_flag: '🇷🇺',
+    // },
 ]

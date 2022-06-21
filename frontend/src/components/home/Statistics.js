@@ -1,5 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {Box, Button, Typography, Modal, TextField, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
+import {
+    Box,
+    Button,
+    Typography,
+    Modal,
+    TextField,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    OutlinedInput
+} from '@mui/material';
 import {useTranslation} from 'react-i18next'
 import {useSearchParams, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -27,7 +38,6 @@ const getDaysArray = function(start, end) {
     }
     return arr;
 };
-
 
 function daysInMonth(month) {
     if (month === -1){
@@ -84,6 +94,8 @@ function Statistics() {
     const dispatch = useDispatch();
     const marketplaces = useSelector(state => state.marketplaces);
     const users = useSelector(state => state.users);
+
+    const [filter, setFilter] = React.useState([]);
 
     const olx_access_token = !!marketplaces?.olx_access_token
     const ria_access_token = !!marketplaces?.ria_access_token
@@ -239,11 +251,11 @@ function Statistics() {
 
 
     const viewsData = {
-        labels: marketplaces?.adverts?.map(el => `${el?.title} (${el.source})`),
+        labels: filter?.map(el => `${el?.title} (${el.source})`),
         datasets: [
             {
                 label: t("Number of views"),
-                data: marketplaces?.adverts?.map(el => el.statistics?.advert_views),
+                data: filter?.map(el => el.statistics?.advert_views),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -266,11 +278,11 @@ function Statistics() {
     };
 
     const observingData = {
-        labels: marketplaces?.adverts?.map(el => `${el?.title} (${el.source})`),
+        labels: filter?.map(el => `${el?.title} (${el.source})`),
         datasets: [
             {
                 label: 'number of observing',
-                data: marketplaces?.adverts?.map(el => el.statistics?.users_observing),
+                data: filter?.map(el => el.statistics?.users_observing),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -293,11 +305,11 @@ function Statistics() {
     };
 
     const phoneViewsData = {
-        labels: marketplaces?.adverts?.map(el => `${el?.title} (${el.source})`),
+        labels: filter?.map(el => `${el?.title} (${el.source})`),
         datasets: [
             {
                 label: 'number of views',
-                data: marketplaces?.adverts?.map(el => el.statistics?.phone_views),
+                data: filter?.map(el => el.statistics?.phone_views),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -318,7 +330,10 @@ function Statistics() {
             },
         ],
     };
-
+    const handleChangeFilter = (event) => {
+        console.log(event.target.value)
+        setFilter(event.target.value);
+    };
 
     return (
         <Box sx={{marginLeft: 30 }}>
@@ -380,9 +395,33 @@ function Statistics() {
                     </Box>
 
                     <Box style={{display: 'inline-block', flex: 3}}>
-                        <Typography variant="h6" component="h1" sx={{m: 2}}>
-                            {t("Active Statistics")}
-                        </Typography>
+                        <div>
+                            <Typography variant="h6" component="h1" sx={{m: 2}}>
+                                {t("Active Statistics")}
+                            </Typography>
+
+                            <FormControl style={{width: 150, textAlign: "center"}}>
+                                <InputLabel id="demo-multiple-name-label">Filter</InputLabel>
+                                <Select
+                                    labelId="demo-multiple-name-label"
+                                    id="demo-multiple-name"
+                                    multiple
+                                    value={filter}
+                                    onChange={handleChangeFilter}
+                                    input={<OutlinedInput label="Filter" />}
+                                >
+                                    { marketplaces?.adverts?.map((el) => (
+                                        <MenuItem
+                                            key={el.title}
+                                            value={el}
+                                        >
+                                            {el.title}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </div>
+
                         <Box style={{display: 'inline-block', width: '25%'}}>
                             <Typography variant="body1" sx={{m: 2}}>
                                 {t("Number Of Views")}
